@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  auth-service:
+    build: ./microservices/auth-service
+    ports:
+      - '3000:3000'
+    environment:
+      - SECRET_KEY=your_secret_key
+
+  post-service:
+    build: ./microservices/post-service
+    ports:
+      - '3001:3001'
+    environment:
+      - SECRET_KEY=your_secret_key
+
+  rating-service:
+    build: ./microservices/rating-service
+    ports:
+      - '3002:3002'
+    environment:
+      - SECRET_KEY=your_secret_key
+
+  comment-service:
+    build: ./microservices/comment-service
+    ports:
+      - '3003:3003'
+    environment:
+      - SECRET_KEY=your_secret_key
+
+  admin-service:
+    build: ./microservices/admin-service
+    ports:
+      - '3004:3004'
+    environment:
+      - SECRET_KEY=your_secret_key
+
+  frontend:
+    build: ./frontend
+    ports:
+      - '3005:3000'
