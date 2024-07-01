@@ -3,7 +3,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.js';
 import './index.css';
-import reportWebVitals from './reportWebVitals';
 
 axios.defaults.baseURL = 'http://localhost:3000';
 
@@ -13,4 +12,3 @@ root.render(
 		<App />
 	</React.StrictMode>,
 );
-reportWebVitals();

@@ -1,12 +1,12 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState('');
-	const history = useHistory();
+	const history = useNavigate();
 
 	const handleRegister = async (e) => {
 		e.preventDefault();

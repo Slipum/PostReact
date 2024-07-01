@@ -39,4 +39,4 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - '3005:3000'
+      - '3005:80'
