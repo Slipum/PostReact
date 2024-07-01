@@ -57,6 +57,15 @@ app.get('/posts/:id', (req, res) => {
 	});
 });
 
+app.get('/posts', (req, res) => {
+	db.all('SELECT * FROM posts', [], (err, rows) => {
+		if (err) {
+			return res.status(500).json({ error: err.message });
+		}
+		res.json(rows);
+	});
+});
+
 app.listen(3001, () => {
 	console.log('Post Service running on port 3001');
 });

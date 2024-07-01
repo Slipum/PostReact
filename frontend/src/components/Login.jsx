@@ -6,7 +6,7 @@ function Login() {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState('');
-	const history = useNavigate();
+	const navigate = useNavigate();
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
@@ -16,7 +16,7 @@ function Login() {
 				password,
 			});
 			localStorage.setItem('token', response.data.token);
-			history.push('/');
+			navigate('/');
 		} catch (err) {
 			setError('Invalid credentials');
 		}

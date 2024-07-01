@@ -16,6 +16,15 @@ db.serialize(() => {
 	db.run(
 		'CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, role TEXT)',
 	);
+
+	// Тестовый пользователь
+	const username = 'test';
+	const password = bcrypt.hashSync('test', 10);
+	db.run('INSERT INTO users (username, password, role) VALUES (?, ?, ?)', [
+		username,
+		password,
+		'user',
+	]);
 });
 
 app.post('/register', (req, res) => {

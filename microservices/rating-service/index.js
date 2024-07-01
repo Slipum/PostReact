@@ -53,6 +53,40 @@ app.get('/ratings', (req, res) => {
 	});
 });
 
+app.get('/posts/:postId/rating', (req, res) => {
+	const { postId } = req.params;
+	db.get('SELECT * FROM ratings WHERE postId = ?', [postId], (err, row) => {
+		if (err) {
+			return res.status(500).json({ error: err.message });
+		}
+		res.json({ rating: row ? row.rating : 0 });
+	});
+});
+
+app.post('/posts/:postId/like', (req, res) => {
+	const { postId } = req.params;
+	db.run('INSERT OR REPLACE INTO ratings (postId, rating) VALUES (?, 1)', [postId], function (err) {
+		if (err) {
+			return res.status(500).json({ error: err.message });
+		}
+		res.sendStatus(204);
+	});
+});
+
+app.post('/posts/:postId/dislike', (req, res) => {
+	const { postId } = req.params;
+	db.run(
+		'INSERT OR REPLACE INTO ratings (postId, rating) VALUES (?, -1)',
+		[postId],
+		function (err) {
+			if (err) {
+				return res.status(500).json({ error: err.message });
+			}
+			res.sendStatus(204);
+		},
+	);
+});
+
 app.listen(3002, () => {
 	console.log('Rating Service running on port 3002');
 });

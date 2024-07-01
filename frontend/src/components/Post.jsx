@@ -7,6 +7,7 @@ function Post() {
 	const [post, setPost] = useState(null);
 	const [comments, setComments] = useState([]);
 	const [newComment, setNewComment] = useState('');
+	const [rating, setRating] = useState(0);
 
 	useEffect(() => {
 		const fetchPost = async () => {
@@ -19,8 +20,14 @@ function Post() {
 			setComments(response.data);
 		};
 
+		const fetchRating = async () => {
+			const response = await axios.get(`http://localhost:3002/posts/${id}/rating`);
+			setRating(response.data.rating);
+		};
+
 		fetchPost();
 		fetchComments();
+		fetchRating();
 	}, [id]);
 
 	const handleAddComment = async (e) => {
@@ -35,6 +42,26 @@ function Post() {
 		}
 	};
 
+	const handleLike = async () => {
+		try {
+			await axios.post(`http://localhost:3002/posts/${id}/like`);
+			const response = await axios.get(`http://localhost:3002/posts/${id}/rating`);
+			setRating(response.data.rating);
+		} catch (err) {
+			console.error('Error liking post', err);
+		}
+	};
+
+	const handleDislike = async () => {
+		try {
+			await axios.post(`http://localhost:3002/posts/${id}/dislike`);
+			const response = await axios.get(`http://localhost:3002/posts/${id}/rating`);
+			setRating(response.data.rating);
+		} catch (err) {
+			console.error('Error disliking post', err);
+		}
+	};
+
 	if (!post) {
 		return <div>Loading...</div>;
 	}
@@ -43,6 +70,9 @@ function Post() {
 		<div>
 			<h2>{post.title}</h2>
 			<p>{post.content}</p>
+			<p>Rating: {rating}</p>
+			<button onClick={handleLike}>Like</button>
+			<button onClick={handleDislike}>Dislike</button>
 			<h3>Comments</h3>
 			<ul>
 				{comments.map((comment) => (
