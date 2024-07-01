@@ -27,6 +27,23 @@ db.serialize(() => {
 	]);
 });
 
+function authenticateToken(req, res, next) {
+	const authHeader = req.headers['authorization'];
+	const token = authHeader && authHeader.split(' ')[1];
+
+	if (!token) {
+		return res.status(401).json({ error: 'Access token not found' });
+	}
+
+	jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
+		if (err) {
+			return res.status(403).json({ error: 'Invalid token' });
+		}
+		req.user = user;
+		next();
+	});
+}
+
 app.post('/register', (req, res) => {
 	const { username, password } = req.body;
 	const hashedPassword = bcrypt.hashSync(password, 10);
@@ -58,6 +75,21 @@ app.post('/login', (req, res) => {
 		);
 		res.json({ token });
 	});
+});
+
+app.post('/posts', authenticateToken, (req, res) => {
+	const { title, content } = req.body;
+	const userId = req.user.id;
+	db.run(
+		'INSERT INTO posts (title, content, userId) VALUES (?, ?, ?)',
+		[title, content, userId],
+		function (err) {
+			if (err) {
+				return res.status(500).json({ error: err.message });
+			}
+			res.status(201).json({ id: this.lastID });
+		},
+	);
 });
 
 app.listen(3000, () => {

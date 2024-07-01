@@ -6,7 +6,7 @@ function Register() {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState('');
-	const history = useNavigate();
+	const navigate = useNavigate();
 
 	const handleRegister = async (e) => {
 		e.preventDefault();
@@ -15,9 +15,15 @@ function Register() {
 				username,
 				password,
 			});
-			history.push('/login');
+			navigate('/login');
 		} catch (err) {
-			setError('Registration failed');
+			if (err.response) {
+				setError(`Registration failed: ${err.response.data.error}`);
+			} else if (err.request) {
+				setError('Registration failed: No response from server');
+			} else {
+				setError(`Registration failed: ${err.message}`);
+			}
 		}
 	};
 

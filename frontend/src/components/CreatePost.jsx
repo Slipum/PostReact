@@ -6,12 +6,12 @@ function CreatePost() {
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState('');
 	const [error, setError] = useState('');
-	const history = useNavigate();
+	const navigate = useNavigate();
 
-	const handleCreatePost = async (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const token = localStorage.getItem('token');
 		try {
+			const token = localStorage.getItem('token');
 			await axios.post(
 				'http://localhost:3001/posts',
 				{
@@ -24,18 +24,20 @@ function CreatePost() {
 					},
 				},
 			);
-			setTitle('');
-			setContent('');
-			history.push('/posts');
+			navigate('/');
 		} catch (err) {
-			setError('Failed to create post');
+			if (err.response) {
+				setError(`Failed to create post: ${err.response.data.error}`);
+			} else {
+				setError('Failed to create post');
+			}
 		}
 	};
 
 	return (
 		<div>
 			<h2>Create Post</h2>
-			<form onSubmit={handleCreatePost}>
+			<form onSubmit={handleSubmit}>
 				<div>
 					<label>Title:</label>
 					<input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
