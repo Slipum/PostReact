@@ -4,27 +4,18 @@ const jwt = require('jsonwebtoken');
 const sqlite3 = require('sqlite3').verbose();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-require('dotenv').config({ path: '../../.env' });
+require('dotenv').config({ path: '../.env' });
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-const db = new sqlite3.Database(':memory:');
+const db = new sqlite3.Database('../database.db');
 
 db.serialize(() => {
 	db.run(
-		'CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, role TEXT)',
+		'CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, role TEXT)',
 	);
-
-	// Тестовый пользователь
-	const username = 'test';
-	const password = bcrypt.hashSync('test', 10);
-	db.run('INSERT INTO users (username, password, role) VALUES (?, ?, ?)', [
-		username,
-		password,
-		'user',
-	]);
 });
 
 function authenticateToken(req, res, next) {
@@ -90,6 +81,19 @@ app.post('/posts', authenticateToken, (req, res) => {
 			res.status(201).json({ id: this.lastID });
 		},
 	);
+});
+
+app.get('/profile', authenticateToken, (req, res) => {
+	const userId = req.user.id;
+	db.get('SELECT id, username, role FROM users WHERE id = ?', [userId], (err, user) => {
+		if (err) {
+			return res.status(500).json({ error: err.message });
+		}
+		if (!user) {
+			return res.status(404).json({ error: 'User not found' });
+		}
+		res.json(user);
+	});
 });
 
 app.listen(3000, () => {

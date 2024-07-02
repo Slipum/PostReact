@@ -4,16 +4,35 @@ import React, { useEffect, useState } from 'react';
 function Admin() {
 	const [users, setUsers] = useState([]);
 	const [posts, setPosts] = useState([]);
+	const [error, setError] = useState('');
 
 	useEffect(() => {
 		const fetchUsers = async () => {
-			const response = await axios.get('http://localhost:3004/users');
-			setUsers(response.data);
+			try {
+				const token = localStorage.getItem('token');
+				const response = await axios.get('http://localhost:3004/users', {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				});
+				setUsers(response.data);
+			} catch (err) {
+				setError('Failed to fetch users');
+			}
 		};
 
 		const fetchPosts = async () => {
-			const response = await axios.get('http://localhost:3004/posts');
-			setPosts(response.data);
+			try {
+				const token = localStorage.getItem('token');
+				const response = await axios.get('http://localhost:3004/posts', {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				});
+				setPosts(response.data);
+			} catch (err) {
+				setError('Failed to fetch posts');
+			}
 		};
 
 		fetchUsers();
@@ -26,6 +45,7 @@ function Admin() {
 			setPosts(posts.filter((post) => post.id !== postId));
 		} catch (err) {
 			console.error('Error deleting post', err);
+			setError('Failed to delete post');
 		}
 	};
 
@@ -42,6 +62,7 @@ function Admin() {
 			</div>
 			<div>
 				<h3>Posts</h3>
+				{error && <p>{error}</p>}
 				<ul>
 					{posts.map((post) => (
 						<li key={post.id}>

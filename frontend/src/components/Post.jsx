@@ -11,17 +11,32 @@ function Post() {
 
 	useEffect(() => {
 		const fetchPost = async () => {
-			const response = await axios.get(`http://localhost:3001/posts/${id}`);
+			const token = localStorage.getItem('token');
+			const response = await axios.get(`http://localhost:3001/posts/${id}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
 			setPost(response.data);
 		};
 
 		const fetchComments = async () => {
-			const response = await axios.get(`http://localhost:3003/posts/${id}/comments`);
+			const token = localStorage.getItem('token');
+			const response = await axios.get(`http://localhost:3003/posts/${id}/comments`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
 			setComments(response.data);
 		};
 
 		const fetchRating = async () => {
-			const response = await axios.get(`http://localhost:3002/posts/${id}/rating`);
+			const token = localStorage.getItem('token');
+			const response = await axios.get(`http://localhost:3002/posts/${id}/rating`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
 			setRating(response.data.rating);
 		};
 
@@ -33,9 +48,22 @@ function Post() {
 	const handleAddComment = async (e) => {
 		e.preventDefault();
 		try {
-			await axios.post(`http://localhost:3003/posts/${id}/comments`, { content: newComment });
+			const token = localStorage.getItem('token');
+			await axios.post(
+				`http://localhost:3003/posts/${id}/comments`,
+				{ content: newComment },
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				},
+			);
 			setNewComment('');
-			const response = await axios.get(`http://localhost:3003/posts/${id}/comments`);
+			const response = await axios.get(`http://localhost:3003/posts/${id}/comments`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
 			setComments(response.data);
 		} catch (err) {
 			console.error('Error adding comment', err);
@@ -44,8 +72,21 @@ function Post() {
 
 	const handleLike = async () => {
 		try {
-			await axios.post(`http://localhost:3002/posts/${id}/like`);
-			const response = await axios.get(`http://localhost:3002/posts/${id}/rating`);
+			const token = localStorage.getItem('token');
+			await axios.post(
+				`http://localhost:3002/posts/${id}/like`,
+				{},
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				},
+			);
+			const response = await axios.get(`http://localhost:3002/posts/${id}/rating`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
 			setRating(response.data.rating);
 		} catch (err) {
 			console.error('Error liking post', err);
@@ -54,8 +95,21 @@ function Post() {
 
 	const handleDislike = async () => {
 		try {
-			await axios.post(`http://localhost:3002/posts/${id}/dislike`);
-			const response = await axios.get(`http://localhost:3002/posts/${id}/rating`);
+			const token = localStorage.getItem('token');
+			await axios.post(
+				`http://localhost:3002/posts/${id}/dislike`,
+				{},
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				},
+			);
+			const response = await axios.get(`http://localhost:3002/posts/${id}/rating`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
 			setRating(response.data.rating);
 		} catch (err) {
 			console.error('Error disliking post', err);

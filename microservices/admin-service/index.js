@@ -3,20 +3,20 @@ const sqlite3 = require('sqlite3').verbose();
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
-require('dotenv').config({ path: '../../.env' });
+require('dotenv').config({ path: '../.env' });
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-const db = new sqlite3.Database(':memory:');
+const db = new sqlite3.Database('../database.db');
 
 db.serialize(() => {
 	db.run(
-		'CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, role TEXT)',
+		'CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, role TEXT)',
 	);
 	db.run(
-		'CREATE TABLE posts (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, userId INTEGER)',
+		'CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, userId INTEGER)',
 	);
 });
 
