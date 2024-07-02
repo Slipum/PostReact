@@ -23,6 +23,11 @@ function Profile() {
 		fetchProfile();
 	}, []);
 
+	const handleLogout = () => {
+		localStorage.removeItem('token');
+		setProfile(null);
+	};
+
 	if (error) {
 		return <p>{error}</p>;
 	}
@@ -36,6 +41,7 @@ function Profile() {
 			<h2>Profile</h2>
 			<p>Username: {profile.username}</p>
 			<p>Role: {profile.role}</p>
+			<button onClick={handleLogout}>Logout</button>
 		</div>
 	);
 }

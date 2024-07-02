@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Header from './layout/Header';
 
 function Home() {
 	const [posts, setPosts] = useState([]);
@@ -16,6 +17,7 @@ function Home() {
 
 	return (
 		<div>
+			<Header />
 			<h2>Posts</h2>
 			<ul>
 				{posts.map((post) => (

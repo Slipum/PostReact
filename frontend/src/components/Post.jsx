@@ -8,42 +8,96 @@ function Post() {
 	const [comments, setComments] = useState([]);
 	const [newComment, setNewComment] = useState('');
 	const [rating, setRating] = useState(0);
+	const [userProfile, setUserProfile] = useState(null); // Состояние для профиля пользователя
+	const [commentAuthors, setCommentAuthors] = useState({}); // Состояние для хранения авторов комментариев
 
 	useEffect(() => {
 		const fetchPost = async () => {
-			const token = localStorage.getItem('token');
-			const response = await axios.get(`http://localhost:3001/posts/${id}`, {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			});
-			setPost(response.data);
+			try {
+				const token = localStorage.getItem('token');
+				const response = await axios.get(`http://localhost:3001/posts/${id}`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				});
+				setPost(response.data);
+			} catch (error) {
+				console.error('Error fetching post:', error);
+			}
 		};
 
 		const fetchComments = async () => {
-			const token = localStorage.getItem('token');
-			const response = await axios.get(`http://localhost:3003/posts/${id}/comments`, {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			});
-			setComments(response.data);
+			try {
+				const token = localStorage.getItem('token');
+				const response = await axios.get(`http://localhost:3003/posts/${id}/comments`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				});
+				setComments(response.data);
+
+				// Запрос и установка авторов комментариев
+				const authors = {};
+				await Promise.all(
+					response.data.map(async (comment) => {
+						const author = await fetchUserName(comment.userId);
+						authors[comment.id] = author;
+					}),
+				);
+				setCommentAuthors(authors);
+			} catch (error) {
+				console.error('Error fetching comments:', error);
+			}
 		};
 
 		const fetchRating = async () => {
-			const token = localStorage.getItem('token');
-			const response = await axios.get(`http://localhost:3002/posts/${id}/rating`, {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			});
-			setRating(response.data.rating);
+			try {
+				const token = localStorage.getItem('token');
+				const response = await axios.get(`http://localhost:3002/posts/${id}/rating`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				});
+				setRating(response.data.rating);
+			} catch (error) {
+				console.error('Error fetching rating:', error);
+			}
+		};
+
+		const fetchUserProfile = async () => {
+			try {
+				const token = localStorage.getItem('token');
+				const response = await axios.get('http://localhost:3000/profile', {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				});
+				setUserProfile(response.data);
+			} catch (error) {
+				console.error('Error fetching user profile:', error);
+			}
 		};
 
 		fetchPost();
 		fetchComments();
 		fetchRating();
+		fetchUserProfile();
 	}, [id]);
+
+	const fetchUserName = async (userId) => {
+		try {
+			const token = localStorage.getItem('token');
+			const response = await axios.get(`http://localhost:3003/users/${userId}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			return response.data.username;
+		} catch (error) {
+			console.error('Error fetching user name:', error);
+			return 'Unknown User';
+		}
+	};
 
 	const handleAddComment = async (e) => {
 		e.preventDefault();
@@ -59,12 +113,24 @@ function Post() {
 				},
 			);
 			setNewComment('');
+
+			// Обновление списка комментариев после добавления
 			const response = await axios.get(`http://localhost:3003/posts/${id}/comments`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
 			});
 			setComments(response.data);
+
+			// Обновление авторов комментариев
+			const authors = {};
+			await Promise.all(
+				response.data.map(async (comment) => {
+					const author = await fetchUserName(comment.userId);
+					authors[comment.id] = author;
+				}),
+			);
+			setCommentAuthors(authors);
 		} catch (err) {
 			console.error('Error adding comment', err);
 		}
@@ -116,7 +182,7 @@ function Post() {
 		}
 	};
 
-	if (!post) {
+	if (!post || !userProfile) {
 		return <div>Loading...</div>;
 	}
 
@@ -130,7 +196,9 @@ function Post() {
 			<h3>Comments</h3>
 			<ul>
 				{comments.map((comment) => (
-					<li key={comment.id}>{comment.content}</li>
+					<li key={comment.id}>
+						{comment.content} <span className="comment-author">{commentAuthors[comment.id]}</span>
+					</li>
 				))}
 			</ul>
 			<form onSubmit={handleAddComment}>

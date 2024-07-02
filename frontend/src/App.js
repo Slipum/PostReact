@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import About from './components/About.jsx';
 import Admin from './components/Admin.jsx';
 import CreatePost from './components/CreatePost.jsx';
 import Home from './components/Home.jsx';
@@ -19,6 +20,7 @@ function App() {
 				<Route path="/create" element={<CreatePost />} />
 				<Route path="/post/:id" element={<Post />} />
 				<Route path="/profile" element={<Profile />} />
+				<Route path="/about" element={<About />} />
 			</Routes>
 		</Router>
 	);

@@ -80,6 +80,19 @@ app.get('/posts/:id/comments', (req, res) => {
 	});
 });
 
+app.get('/users/:id', authenticateToken, (req, res) => {
+	const { id } = req.params;
+	db.get('SELECT * FROM users WHERE id = ?', [id], (err, row) => {
+		if (err) {
+			return res.status(500).json({ error: err.message });
+		}
+		if (!row) {
+			return res.status(404).json({ error: 'User not found' });
+		}
+		res.json({ id: row.id, username: row.username });
+	});
+});
+
 app.listen(3003, () => {
 	console.log('Comment Service running on port 3003');
 });
