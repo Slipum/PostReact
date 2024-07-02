@@ -1,0 +1,109 @@
+## Проект "PostReact"
+
+### Описание проекта
+
+Этот проект представляет собой веб-приложение с возможностью публикации контента, системы рейтингов, поиска, комментариев, системы upvote/downvote и административной панели для управления пользователями и удаления постов. Приложение использует микросервисную архитектуру и разворачивается локально с помощью Docker.
+
+### Функциональность
+
+- **Публикация контента**: Пользователи могут создавать и редактировать посты.
+- **Система рейтингов**: Пользователи могут ставить лайки и дизлайки постам.
+- **Поиск**: Возможность поиска постов по ключевым словам.
+- **Комментарии**: Пользователи могут оставлять комментарии к постам.
+- **Система upvote/downvote**: Пользователи могут голосовать за или против постов.
+- **Административная панель**: Администраторы могут управлять пользователями и удалять посты.
+
+### Технологии
+
+- ![React](https://img.shields.io/badge/-React-61DAFB?logo=react&logoColor=white&style=flat) Фронтенд библиотеки для создания пользовательских интерфейсов.
+- ![Express.js](https://img.shields.io/badge/-Express.js-000000?logo=express&logoColor=white&style=flat) Бэкенд фреймворк для создания веб-приложений и API.
+- ![SQLite](https://img.shields.io/badge/-SQLite-003B57?logo=sqlite&logoColor=white&style=flat) Легковесная реляционная база данных.
+- ![Docker](https://img.shields.io/badge/-Docker-2496ED?logo=docker&logoColor=white&style=flat) Платформа для разработки, доставки и запуска приложений в контейнерах.
+- ![Nginx](https://img.shields.io/badge/-Nginx-339933?logo=nginx&logoColor=white&style=flat) Веб-сервер для корректного перенаправления запросов.
+- ![JWT](https://img.shields.io/badge/-JWT-000000?logo=json-web-tokens&logoColor=white&style=flat) Стандарт для создания токенов доступа.
+- ![bcrypt](https://img.shields.io/badge/-bcrypt-003A70?logo=shield&logoColor=white&style=flat) Библиотека для хеширования паролей.
+- ![Node.js](https://img.shields.io/badge/-Node.js-339933?logo=node.js&logoColor=white&style=flat) Среда выполнения JavaScript вне браузера.
+- ![Axios](https://img.shields.io/badge/-Axios-671DD7?logo=axios&logoColor=white&style=flat) Библиотека для выполнения HTTP-запросов.
+
+### Установка и запуск проекта
+
+1. **Клонирование репозитория**
+
+   ```bash
+   git clone https://github.com/yourusername/projectname.git
+   cd projectname
+   ```
+
+2. **Настройка окружения**
+
+   Измените файл `.env` в корневой директории проекта и замените следующие переменные окружения:
+
+   ```plaintext
+   SECRET_KEY=your_secret_key
+   ADMIN_USERNAME=admin
+   ADMIN_EMAIL=admin@example.com
+   ADMIN_PASSWORD=123098
+   ```
+
+3. **Запуск Docker контейнеров**
+
+   Убедитесь, что у вас установлен Docker и Docker Compose. Затем выполните команду:
+
+   ```bash
+   docker-compose up --build
+   ```
+
+4. **Открытие приложения**
+
+   Откройте ваш браузер и перейдите по адресу `http://localhost:3000`.
+
+### Структура проекта
+
+- **frontend**: Директория с фронтенд кодом на React.
+- **backend**: Директория с бэкенд кодом на Express.js.
+- **services**: Директория с кодом микросервисов (комментарии, рейтинг и т.д.).
+- **docker-compose.yml**: Файл конфигурации Docker Compose.
+- **Dockerfile**: Dockerfile для создания контейнеров.
+
+### Эндпоинты
+
+#### Регистрация (порт 3000)
+
+- **POST /register**: Регистрация нового пользователя.
+- **POST /login**: Аутентификация пользователя.
+- **GET /profile**: Получения информации о профиле
+
+#### Посты (порт 3001)
+
+- **GET /posts/:id**: Получение информации о посте по ID.
+
+#### Рейтинги (порт 3002)
+
+- **GET /posts/:postId/rating**: Получение рейтинга поста.
+- **POST /posts/:postId/like**: Лайк поста.
+- **POST /posts/:postId/dislike**: Дизлайк поста.
+
+#### Комментарии (порт 3003)
+
+- **GET /posts/:postId/comments**: Получение комментариев для поста.
+- **POST /posts/:postId/comments**: Добавление нового комментария к посту.
+
+#### Администрирование (port 3004)
+
+- **GET /users**: Получение всех пользователей.
+- **DELETE /posts/:id**: Удаление поста по ID.
+
+### Авторизация и Роли
+
+Для выполнения административных действий необходимо быть аутентифицированным и иметь роль "admin".
+Для настройки пользователя "admin" нужно перейти в `.env` и заменить переменные:
+
+```
+ADMIN_USERNAME=admin
+ADMIN_EMAIL=admin@example.com
+ADMIN_PASSWORD=123098
+```
+
+### Лицензия
+
+Этот проект лицензирован на условиях лицензии MIT. Подробности см. в файле LICENSE.

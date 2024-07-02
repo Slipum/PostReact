@@ -18,9 +18,9 @@ db.serialize(() => {
 	);
 
 	// Admin пользователь
-	const username = 'admin';
-	const email = 'admin@example.com';
-	const password = bcrypt.hashSync('123098', 10);
+	const username = process.env.ADMIN_USERNAME;
+	const email = process.env.ADMIN_EMAIL;
+	const password = bcrypt.hashSync(process.env.ADMIN_PASSWORD, 10);
 
 	// Вставка пользователя, только если его еще нет в таблице
 	db.run(
