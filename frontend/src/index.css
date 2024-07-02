@@ -41,7 +41,7 @@ a {
 	font-weight: 1000;
 }
 
-.auth-container form p {
+.auth-title {
 	text-align: center;
 	margin-bottom: 20px;
 	color: #2c2c2cb1;
@@ -49,15 +49,47 @@ a {
 
 .form-controll {
 	position: relative;
-	margin-bottom: 15px;
+	height: 50px;
+	margin-bottom: 1.5rem;
 }
 
-.form-controll label {
+.form-input {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	font-size: 1rem;
+	border: 1px solid #dadce0;
+	border-radius: 0.5rem;
+	outline: none;
+	padding: 1rem;
+	background: none;
+	z-index: 1;
+}
+
+.form-label {
+	position: absolute;
+	left: 1rem;
+	top: 1rem;
+	padding: 0 0.25rem;
+	background-color: #fff;
+	color: #808688;
+	font-size: 1rem;
+	transition: 0.3s;
+	z-index: -1;
+}
+
+.form-controll:focus-within .form-label {
+	top: -0.8rem;
+	left: 0.8rem;
 	display: block;
-	margin-bottom: 5px;
+	z-index: 10;
 }
 
-.form-controll input,
+.form-input:focus::placeholder {
+	color: transparent;
+}
+
 .form-controll textarea {
 	width: 100%;
 	padding: 10px;
@@ -89,6 +121,42 @@ a {
 }
 
 .error {
+	color: red;
+}
+
+.fa-circle-check {
+	color: rgb(0, 255, 0);
+	height: 100%;
+	padding: 1.15rem;
+	font-size: 1.1rem;
+	margin-left: 88%;
+	margin-top: 1px;
+}
+
+.fa-circle-xmark {
+	height: 100%;
+	color: red;
+	padding: 1.15rem;
+	font-size: 1.1rem;
+	margin-left: 88%;
+	margin-top: 1px;
+}
+
+.valid {
+	color: #00ff00;
+	border: 1px solid #00ff00;
+}
+
+.invalid {
+	color: red;
+	border: 1px solid red;
+}
+
+.fvalid {
+	color: #00ff00;
+}
+
+.finvalid {
 	color: red;
 }
 

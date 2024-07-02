@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function Register() {
@@ -9,8 +9,58 @@ function Register() {
 	const [error, setError] = useState('');
 	const navigate = useNavigate();
 
+	// Состояния для валидации
+	const [usernameError, setUsernameError] = useState('');
+	const [passwordError, setPasswordError] = useState('');
+	const [emailError, setEmailError] = useState('');
+
+	// Состояния для отслеживания первого фокуса на input
+	const [usernameTouched, setUsernameTouched] = useState(false);
+	const [passwordTouched, setPasswordTouched] = useState(false);
+	const [emailTouched, setEmailTouched] = useState(false);
+
+	// Функция для валидации формы
+	const validateForm = useCallback(() => {
+		let valid = true;
+
+		// Проверка имени пользователя
+		if (username.length < 3) {
+			setUsernameError('Username must be at least 3 characters');
+			valid = false;
+		} else {
+			setUsernameError('');
+		}
+
+		// Проверка пароля
+		if (password.length < 8) {
+			setPasswordError('Password must be at least 8 characters');
+			valid = false;
+		} else {
+			setPasswordError('');
+		}
+
+		// Проверка email
+		if (!/\S+@\S+\.\S+/.test(email)) {
+			setEmailError('Invalid email format');
+			valid = false;
+		} else {
+			setEmailError('');
+		}
+
+		return valid;
+	}, [username, password, email]);
+
+	// Проверка полей при изменении значений
+	useEffect(() => {
+		validateForm();
+	}, [username, password, email, validateForm]);
+
 	const handleRegister = async (e) => {
 		e.preventDefault();
+		// Проверка введённых данных перед отправкой на сервер
+		if (!validateForm()) {
+			return;
+		}
 		try {
 			const response = await axios.post('http://localhost:3000/register', {
 				username,
@@ -38,38 +88,83 @@ function Register() {
 				</a>
 			</div>
 			<div className="auth-container">
-				<form onSubmit={handleRegister}>
+				<form onSubmit={handleRegister} noValidate>
 					<h2>Auth</h2>
 					<p className="auth-title">Create an account</p>
 					<div className="form-controll">
-						<label>Username:</label>
+						<label
+							className={`form-label ${
+								usernameTouched ? (usernameError === '' ? 'fvalid' : 'finvalid') : ''
+							}`}>
+							Username
+						</label>
 						<input
+							className={`form-input ${
+								usernameTouched ? (usernameError === '' ? 'valid' : 'invalid') : ''
+							}`}
 							type="text"
 							value={username}
-							placeholder="user_name"
+							placeholder="username"
 							onChange={(e) => setUsername(e.target.value)}
+							onBlur={() => setUsernameTouched(true)}
 							required
 						/>
+						{usernameTouched &&
+							(usernameError === '' ? (
+								<i className="fa-solid fa-circle-check"></i>
+							) : (
+								<i className="fa-solid fa-circle-xmark"></i>
+							))}
 					</div>
 					<div className="form-controll">
-						<label>Email:</label>
+						<label
+							className={`form-label ${
+								emailTouched ? (emailError === '' ? 'fvalid' : 'finvalid') : ''
+							}`}>
+							Email
+						</label>
 						<input
+							className={`form-input ${
+								emailTouched ? (emailError === '' ? 'valid' : 'invalid') : ''
+							}`}
 							type="email"
 							value={email}
 							placeholder="example@example.com"
 							onChange={(e) => setEmail(e.target.value)}
+							onBlur={() => setEmailTouched(true)}
 							required
 						/>
+						{emailTouched &&
+							(emailError === '' ? (
+								<i className="fa-solid fa-circle-check"></i>
+							) : (
+								<i className="fa-solid fa-circle-xmark"></i>
+							))}
 					</div>
 					<div className="form-controll">
-						<label>Password:</label>
+						<label
+							className={`form-label ${
+								passwordTouched ? (passwordError === '' ? 'fvalid' : 'finvalid') : ''
+							}`}>
+							Password
+						</label>
 						<input
+							className={`form-input ${
+								passwordTouched ? (passwordError === '' ? 'valid' : 'invalid') : ''
+							}`}
 							type="password"
 							value={password}
-							placeholder="••••••"
+							placeholder="••••••••"
 							onChange={(e) => setPassword(e.target.value)}
+							onBlur={() => setPasswordTouched(true)}
 							required
 						/>
+						{passwordTouched &&
+							(passwordError === '' ? (
+								<i className="fa-solid fa-circle-check"></i>
+							) : (
+								<i className="fa-solid fa-circle-xmark"></i>
+							))}
 					</div>
 					{error && <p className="error">{error}</p>}
 					<button type="submit">Create an account</button>
