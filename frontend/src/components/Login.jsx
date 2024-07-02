@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
-	const [username, setUsername] = useState('');
+	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState('');
 	const navigate = useNavigate();
@@ -12,7 +12,7 @@ function Login() {
 		e.preventDefault();
 		try {
 			const response = await axios.post('http://localhost:3000/login', {
-				username,
+				email,
 				password,
 			});
 			localStorage.setItem('token', response.data.token);
@@ -23,30 +23,38 @@ function Login() {
 	};
 
 	return (
-		<div>
-			<h2>Login</h2>
-			<form onSubmit={handleLogin}>
-				<div>
-					<label>Username:</label>
-					<input
-						type="text"
-						value={username}
-						onChange={(e) => setUsername(e.target.value)}
-						required
-					/>
-				</div>
-				<div>
-					<label>Password:</label>
-					<input
-						type="password"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-						required
-					/>
-				</div>
-				{error && <p>{error}</p>}
-				<button type="submit">Login</button>
-			</form>
+		<div className="auntification">
+			<div className="auth-container">
+				<form onSubmit={handleLogin}>
+					<h2>Auth</h2>
+					<p>Welcome back</p>
+					<div className="form-controll">
+						<label>Email:</label>
+						<input
+							type="text"
+							value={email}
+							placeholder="example@example.com"
+							onChange={(e) => setEmail(e.target.value)}
+							required
+						/>
+					</div>
+					<div className="form-controll">
+						<label>Password:</label>
+						<input
+							type="password"
+							value={password}
+							placeholder="••••••"
+							onChange={(e) => setPassword(e.target.value)}
+							required
+						/>
+					</div>
+					{error && <p>{error}</p>}
+					<button type="submit">Login</button>
+					<div className="quest">
+						<a href="/register">Don't have an account?</a>
+					</div>
+				</form>
+			</div>
 		</div>
 	);
 }

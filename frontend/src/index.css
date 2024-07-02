@@ -10,6 +10,8 @@ a {
 	text-decoration: none;
 }
 
+/* Auth-styles */
+
 .auntification {
 	background-color: #dcdcdc;
 	display: flex;
@@ -18,3 +20,76 @@ a {
 	height: 100vh;
 	padding: 0 20px;
 }
+
+.auth-container {
+	display: flex;
+	gap: 20px;
+	background-color: #fff;
+	width: 100%;
+	max-width: 450px;
+	padding: 25px;
+	border-radius: 10px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.auth-container form {
+	width: 100%;
+}
+
+.auth-container form h2 {
+	text-align: center;
+	font-weight: 1000;
+}
+
+.auth-container form p {
+	text-align: center;
+	margin-bottom: 20px;
+	color: #2c2c2cb1;
+}
+
+.form-controll {
+	position: relative;
+	margin-bottom: 15px;
+}
+
+.form-controll label {
+	display: block;
+	margin-bottom: 5px;
+}
+
+.form-controll input,
+.form-controll textarea {
+	width: 100%;
+	padding: 10px;
+	padding-right: 40px;
+	border: 2px solid #ddd;
+	border-radius: 6px;
+	outline: none;
+}
+
+.auth-container form button {
+	width: 100%;
+	border: none;
+	padding: 10px;
+	background-color: #000000;
+	color: #fff;
+	border-radius: 6px;
+	cursor: pointer;
+	font-size: 16px;
+	transition: all 0.3s ease;
+	margin: 15px 0;
+}
+
+.auth-container form button:hover {
+	background-color: #2c2c2c;
+}
+
+.quest {
+	text-align: center;
+}
+
+.error {
+	color: red;
+}
+
+/* ----------- */

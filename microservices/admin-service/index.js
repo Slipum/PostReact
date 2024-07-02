@@ -53,6 +53,11 @@ app.get('/posts', (req, res) => {
 
 app.delete('/posts/:id', authenticateToken, (req, res) => {
 	const postId = req.params.id;
+	db.run('DELETE FROM ratings WHERE postId = ?', [postId], (err) => {
+		if (err) {
+			return res.status(500).json({ error: 'Failed to delete ratings' });
+		}
+	});
 	db.run('DELETE FROM posts WHERE id = ?', [postId], function (err) {
 		if (err) {
 			return res.status(500).json({ error: err.message });

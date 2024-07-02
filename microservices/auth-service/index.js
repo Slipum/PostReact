@@ -14,17 +14,28 @@ const db = new sqlite3.Database('../database.db');
 
 db.serialize(() => {
 	db.run(
-		'CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, role TEXT)',
+		'CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, email TEXT, role TEXT)',
 	);
 
 	// Admin пользователь
 	const username = 'admin';
+	const email = 'admin@example.com';
 	const password = bcrypt.hashSync('123098', 10);
-	db.run('INSERT INTO users (username, password, role) VALUES (?, ?, ?)', [
-		username,
-		password,
-		'admin',
-	]);
+
+	// Вставка пользователя, только если его еще нет в таблице
+	db.run(
+		`INSERT INTO users (username, password, email, role)
+		SELECT ?, ?, ?, ?
+		WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = ?)`,
+		[username, password, email, 'admin', username],
+		(err) => {
+			if (err) {
+				console.error('Ошибка при добавлении пользователя:', err);
+			} else {
+				console.log('Пользователь admin успешно добавлен или уже существует');
+			}
+		},
+	);
 });
 
 function authenticateToken(req, res, next) {
@@ -45,23 +56,26 @@ function authenticateToken(req, res, next) {
 }
 
 app.post('/register', (req, res) => {
-	const { username, password } = req.body;
+	const { username, password, email } = req.body;
 	const hashedPassword = bcrypt.hashSync(password, 10);
 	db.run(
-		'INSERT INTO users (username, password, role) VALUES (?, ?, ?)',
-		[username, hashedPassword, 'user'],
+		'INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, ?)',
+		[username, hashedPassword, email, 'user'],
 		function (err) {
 			if (err) {
 				return res.status(500).json({ error: err.message });
 			}
-			res.status(201).json({ id: this.lastID });
+			const token = jwt.sign({ id: this.lastID, username, role: 'user' }, process.env.SECRET_KEY, {
+				expiresIn: '1h',
+			});
+			res.status(201).json({ token });
 		},
 	);
 });
 
 app.post('/login', (req, res) => {
-	const { username, password } = req.body;
-	db.get('SELECT * FROM users WHERE username = ?', [username], (err, user) => {
+	const { email, password } = req.body;
+	db.get('SELECT * FROM users WHERE email = ?', [email], (err, user) => {
 		if (err) {
 			return res.status(500).json({ error: err.message });
 		}

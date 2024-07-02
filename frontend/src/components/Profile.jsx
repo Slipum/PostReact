@@ -1,8 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 
 function Profile() {
 	const [profile, setProfile] = useState(null);
+	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState('');
 
 	useEffect(() => {
@@ -15,8 +17,10 @@ function Profile() {
 					},
 				});
 				setProfile(response.data);
+				setLoading(false);
 			} catch (err) {
 				setError('Failed to fetch profile');
+				setLoading(false);
 			}
 		};
 
@@ -32,8 +36,12 @@ function Profile() {
 		return <p>{error}</p>;
 	}
 
+	if (loading) {
+		return <p>Loading profile...</p>;
+	}
+
 	if (!profile) {
-		return <p>Loading...</p>;
+		return <Navigate to="/" />;
 	}
 
 	return (

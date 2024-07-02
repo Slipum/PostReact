@@ -5,17 +5,20 @@ import { useNavigate } from 'react-router-dom';
 function Register() {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
+	const [email, setEmail] = useState('');
 	const [error, setError] = useState('');
 	const navigate = useNavigate();
 
 	const handleRegister = async (e) => {
 		e.preventDefault();
 		try {
-			await axios.post('http://localhost:3000/register', {
+			const response = await axios.post('http://localhost:3000/register', {
 				username,
 				password,
+				email,
 			});
-			navigate('/login');
+			localStorage.setItem('token', response.data.token);
+			navigate('/');
 		} catch (err) {
 			if (err.response) {
 				setError(`Registration failed: ${err.response.data.error}`);
@@ -28,30 +31,48 @@ function Register() {
 	};
 
 	return (
-		<div>
-			<h2>Register</h2>
-			<form onSubmit={handleRegister}>
-				<div>
-					<label>Username:</label>
-					<input
-						type="text"
-						value={username}
-						onChange={(e) => setUsername(e.target.value)}
-						required
-					/>
-				</div>
-				<div>
-					<label>Password:</label>
-					<input
-						type="password"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-						required
-					/>
-				</div>
-				{error && <p>{error}</p>}
-				<button type="submit">Register</button>
-			</form>
+		<div className="auntification">
+			<div className="auth-container">
+				<form onSubmit={handleRegister}>
+					<h2>Auth</h2>
+					<p className="auth-title">Create an account</p>
+					<div className="form-controll">
+						<label>Username:</label>
+						<input
+							type="text"
+							value={username}
+							placeholder="user_name"
+							onChange={(e) => setUsername(e.target.value)}
+							required
+						/>
+					</div>
+					<div className="form-controll">
+						<label>Email:</label>
+						<input
+							type="email"
+							value={email}
+							placeholder="example@example.com"
+							onChange={(e) => setEmail(e.target.value)}
+							required
+						/>
+					</div>
+					<div className="form-controll">
+						<label>Password:</label>
+						<input
+							type="password"
+							value={password}
+							placeholder="••••••"
+							onChange={(e) => setPassword(e.target.value)}
+							required
+						/>
+					</div>
+					{error && <p className="error">{error}</p>}
+					<button type="submit">Create an account</button>
+					<div className="quest">
+						<a href="/login">Alredy have an account?</a>
+					</div>
+				</form>
+			</div>
 		</div>
 	);
 }
