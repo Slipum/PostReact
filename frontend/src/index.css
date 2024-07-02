@@ -92,4 +92,14 @@ a {
 	color: red;
 }
 
+.icon-container {
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	z-index: 1;
+	padding-left: 10px;
+	padding-top: 5px;
+	font-size: 30px;
+}
+
 /* ----------- */

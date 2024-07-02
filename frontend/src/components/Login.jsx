@@ -24,6 +24,11 @@ function Login() {
 
 	return (
 		<div className="auntification">
+			<div className="icon-container">
+				<a href="/">
+					<i class="fa-solid fa-arrow-left"></i>
+				</a>
+			</div>
 			<div className="auth-container">
 				<form onSubmit={handleLogin}>
 					<h2>Auth</h2>
@@ -31,7 +36,7 @@ function Login() {
 					<div className="form-controll">
 						<label>Email:</label>
 						<input
-							type="text"
+							type="email"
 							value={email}
 							placeholder="example@example.com"
 							onChange={(e) => setEmail(e.target.value)}

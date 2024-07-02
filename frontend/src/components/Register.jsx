@@ -32,6 +32,11 @@ function Register() {
 
 	return (
 		<div className="auntification">
+			<div className="icon-container">
+				<a href="/">
+					<i class="fa-solid fa-arrow-left"></i>
+				</a>
+			</div>
 			<div className="auth-container">
 				<form onSubmit={handleRegister}>
 					<h2>Auth</h2>
