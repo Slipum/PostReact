@@ -16,6 +16,15 @@ db.serialize(() => {
 	db.run(
 		'CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, role TEXT)',
 	);
+
+	// Admin пользователь
+	const username = 'admin';
+	const password = bcrypt.hashSync('123098', 10);
+	db.run('INSERT INTO users (username, password, role) VALUES (?, ?, ?)', [
+		username,
+		password,
+		'admin',
+	]);
 });
 
 function authenticateToken(req, res, next) {

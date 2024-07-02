@@ -41,7 +41,12 @@ function Admin() {
 
 	const handleDeletePost = async (postId) => {
 		try {
-			await axios.delete(`http://localhost:3004/posts/${postId}`);
+			const token = localStorage.getItem('token');
+			await axios.delete(`http://localhost:3004/posts/${postId}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
 			setPosts(posts.filter((post) => post.id !== postId));
 		} catch (err) {
 			console.error('Error deleting post', err);

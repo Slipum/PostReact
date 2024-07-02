@@ -8,8 +8,8 @@ function Post() {
 	const [comments, setComments] = useState([]);
 	const [newComment, setNewComment] = useState('');
 	const [rating, setRating] = useState(0);
-	const [userProfile, setUserProfile] = useState(null); // Состояние для профиля пользователя
-	const [commentAuthors, setCommentAuthors] = useState({}); // Состояние для хранения авторов комментариев
+	const [userProfile, setUserProfile] = useState(null);
+	const [commentAuthors, setCommentAuthors] = useState({});
 
 	useEffect(() => {
 		const fetchPost = async () => {
@@ -197,7 +197,7 @@ function Post() {
 			<ul>
 				{comments.map((comment) => (
 					<li key={comment.id}>
-						{comment.content} <span className="comment-author">{commentAuthors[comment.id]}</span>
+						{comment.content} <span className="comment-author">({commentAuthors[comment.id]})</span>
 					</li>
 				))}
 			</ul>
