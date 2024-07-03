@@ -128,20 +128,36 @@ function Home() {
 
 	const handleSearch = async (query) => {
 		try {
+			const token = localStorage.getItem('token');
+
 			let response;
 			if (query.startsWith('@')) {
 				response = await axios.get(
 					`http://localhost:3001/posts/search/user?q=${encodeURIComponent(query)}`,
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					},
 				);
 			} else {
 				response = await axios.get(
 					`http://localhost:3001/posts/search?q=${encodeURIComponent(query)}`,
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					},
 				);
 			}
 
 			const searchResultsWithDetails = await Promise.all(
 				response.data.map(async (post) => {
-					const userResponse = await axios.get(`http://localhost:3000/users/${post.userId}`);
+					const userResponse = await axios.get(`http://localhost:3000/users/${post.userId}`, {
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					});
 					return {
 						...post,
 						author: userResponse.data.username,
