@@ -121,6 +121,7 @@ function Register() {
 							usernameTouched && usernameError !== '' ? 'visibality-er' : 'hidden-er'
 						}`}>
 						{usernameError}
+						{usernameError === '' && <p className="hidden-er">Correct</p>}
 					</p>
 					<div className="form-controll">
 						<label
@@ -152,6 +153,7 @@ function Register() {
 							emailTouched && emailError !== '' ? 'visibality-er' : 'hidden-er'
 						}`}>
 						{emailError}
+						{emailError === '' && <p className="hidden-er">Correct</p>}
 					</p>
 					<div className="form-controll">
 						<label
@@ -183,6 +185,7 @@ function Register() {
 							passwordTouched && passwordError !== '' ? 'visibality-er' : 'hidden-er'
 						}`}>
 						{passwordError}
+						{passwordError === '' && <p className="hidden-er">Correct</p>}
 					</p>
 					{error && <p className="error">{error}</p>}
 					<button type="submit">Create an account</button>

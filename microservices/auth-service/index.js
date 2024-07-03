@@ -106,6 +106,20 @@ app.post('/posts', authenticateToken, (req, res) => {
 	);
 });
 
+// Маршрут для получения информации о пользователе по id
+app.get('/users/:id', authenticateToken, (req, res) => {
+	const userId = req.params.id;
+	db.get('SELECT id, username, email, role FROM users WHERE id = ?', [userId], (err, user) => {
+		if (err) {
+			return res.status(500).json({ error: err.message });
+		}
+		if (!user) {
+			return res.status(404).json({ error: 'User not found' });
+		}
+		res.json(user);
+	});
+});
+
 app.get('/profile', authenticateToken, (req, res) => {
 	const userId = req.user.id;
 	db.get('SELECT id, username, email, role FROM users WHERE id = ?', [userId], (err, user) => {

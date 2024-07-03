@@ -40,7 +40,7 @@ function Header({ onSearch, onClearSearch }) {
 			<div className="h-logo">
 				<a href="/">
 					<h1>
-						<i class="fa-brands fa-react"></i>PostReact
+						<i className="fa-brands fa-react"></i>PostReact
 					</h1>
 				</a>
 			</div>
@@ -49,7 +49,7 @@ function Header({ onSearch, onClearSearch }) {
 					{window.location.pathname === '/' && (
 						<>
 							<div className="find-container">
-								<i class="fa-solid fa-magnifying-glass"></i>
+								<i className="fa-solid fa-magnifying-glass"></i>
 							</div>
 							<input
 								type="text"
@@ -59,7 +59,7 @@ function Header({ onSearch, onClearSearch }) {
 							/>
 							{searchQuery && (
 								<button onClick={handleClearSearch}>
-									<i class="fa-regular fa-circle-xmark"></i>
+									<i className="fa-regular fa-circle-xmark"></i>
 								</button>
 							)}
 						</>

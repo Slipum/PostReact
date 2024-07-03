@@ -1,10 +1,19 @@
 ## Project "PostReact"
 
-- :ru: [Russian Documentation](./lang-docs/ru.md) - Documentation in Russian.
+- :ru: [Russian Documentation](./docs/ru.md) - Documentation in Russian.
 
 ### Project Description
 
 This project is a web application that allows users to publish content, rate posts, search, comment, upvote/downvote, and includes an admin panel for user management and post deletion. The application utilizes a microservices architecture and can be deployed locally using Docker.
+
+### Preview
+
+<div>
+	<img src='./docs/assets/image.png' />
+	<img src='./docs/assets/image2.png' />
+</div>
+
+---
 
 ### Functionality
 

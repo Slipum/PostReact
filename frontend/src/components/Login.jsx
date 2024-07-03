@@ -102,6 +102,7 @@ function Login() {
 							emailTouched && emailError !== '' ? 'visibality-er' : 'hidden-er'
 						}`}>
 						{emailError}
+						{emailError === '' && <p className="hidden-er">Correct</p>}
 					</p>
 					<div className="form-controll">
 						<label
@@ -133,6 +134,7 @@ function Login() {
 							passwordTouched && passwordError !== '' ? 'visibality-er' : 'hidden-er'
 						}`}>
 						{passwordError}
+						{passwordError === '' && <p className="hidden-er">Correct</p>}
 					</p>
 					{error && <p className="error">{error}</p>}
 					<button type="submit">Login</button>

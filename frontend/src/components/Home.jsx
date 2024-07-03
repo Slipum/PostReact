@@ -21,22 +21,37 @@ function Home() {
 	useEffect(() => {
 		const fetchPosts = async () => {
 			try {
+				const token = localStorage.getItem('token');
 				const response = await axios.get('http://localhost:3001/posts');
 				setPosts(response.data);
 				setTotalPosts(response.data.length);
 
-				const postsWithDetails = await Promise.all(
+				const postsWithDetails = await Promise.allSettled(
 					response.data.map(async (post) => {
-						const userResponse = await axios.get(`http://localhost:3000/users/${post.userId}`);
-						return {
-							...post,
-							author: userResponse.data.username,
-							createdAt: new Date(post.createdAt),
-						};
+						try {
+							const userResponse = await axios.get(`http://localhost:3000/users/${post.userId}`, {
+								headers: {
+									Authorization: `Bearer ${token}`,
+								},
+							});
+							if (userResponse.status === 200) {
+								return {
+									...post,
+									author: userResponse.data.username,
+									createdAt: new Date(post.createdAt),
+								};
+							} else {
+								console.error(`User not found: ${post.userId}`);
+								return post;
+							}
+						} catch (userError) {
+							console.error(`Error fetching user ${post.userId}`, userError);
+							return post;
+						}
 					}),
 				);
 
-				setPosts(postsWithDetails);
+				setPosts(postsWithDetails.map((result) => result.value || result.reason));
 			} catch (err) {
 				console.error('Error fetching posts', err);
 			}
@@ -247,15 +262,15 @@ function Home() {
 										(currentUser.id === post.userId || currentUser.role === 'admin') && (
 											<div className="more-menu" ref={(el) => (moreMenuRefs.current[index] = el)}>
 												<button onClick={() => handleMoreClick(post.id)}>
-													<i class="fa-solid fa-ellipsis"></i>
+													<i className="fa-solid fa-ellipsis"></i>
 												</button>
 												{activePost === post.id && (
 													<div className="dropdown-menu">
 														<button onClick={() => openEditModal(post)}>
-															<i class="fa-solid fa-pen"></i> Edit
+															<i className="fa-solid fa-pen"></i> Edit
 														</button>
 														<button onClick={() => deletePost(post.id, currentUser.id)}>
-															<i class="fa-regular fa-trash-can"></i> Delete
+															<i className="fa-regular fa-trash-can"></i> Delete
 														</button>
 													</div>
 												)}
