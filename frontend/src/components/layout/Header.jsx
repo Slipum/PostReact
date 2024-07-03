@@ -39,21 +39,32 @@ function Header({ onSearch, onClearSearch }) {
 		<header className="header-container">
 			<div className="h-logo">
 				<a href="/">
-					<h1>PostReact</h1>
+					<h1>
+						<i class="fa-brands fa-react"></i>PostReact
+					</h1>
 				</a>
 			</div>
-			<div className="search-container">
-				{window.location.pathname === '/' && (
-					<div>
-						<input
-							type="text"
-							placeholder="Search posts or users"
-							value={searchQuery}
-							onChange={handleSearchChange}
-						/>
-						<button onClick={handleClearSearch}>Clear</button>
-					</div>
-				)}
+			<div className="search-wrapper">
+				<div className="search-container">
+					{window.location.pathname === '/' && (
+						<>
+							<div className="find-container">
+								<i class="fa-solid fa-magnifying-glass"></i>
+							</div>
+							<input
+								type="text"
+								placeholder="Search PostReact"
+								value={searchQuery}
+								onChange={handleSearchChange}
+							/>
+							{searchQuery && (
+								<button onClick={handleClearSearch}>
+									<i class="fa-regular fa-circle-xmark"></i>
+								</button>
+							)}
+						</>
+					)}
+				</div>
 			</div>
 			<div className="h-auth">
 				{profile ? (

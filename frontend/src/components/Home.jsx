@@ -123,29 +123,42 @@ function Home() {
 	const displayPosts = searchQuery ? searchResults : posts;
 
 	return (
-		<div>
+		<>
 			<Header onSearch={handleSearch} onClearSearch={clearSearchResults} />
-			{currentUser && (
-				<div className="add-post">
-					<button onClick={openModal}>
-						<i className="fa-solid fa-circle-plus"></i>
-					</button>
+			<div className="posts-container">
+				<div className="posts-head">
+					<h2>Posts</h2>
+					{currentUser && (
+						<div className="add-post">
+							<button onClick={openModal}>
+								<i className="fa-solid fa-circle-plus"></i>
+							</button>
+						</div>
+					)}
 				</div>
-			)}
-			<h2>Posts</h2>
-			<ul>
-				{displayPosts.map((post) => (
-					<li key={post.id}>
-						<Link to={`/post/${post.id}`}>{post.title}</Link>
-						{currentUser && (currentUser.id === post.userId || currentUser.role === 'admin') && (
-							<>
-								<button onClick={() => openEditModal(post)}>Edit</button>
-								<button onClick={() => deletePost(post.id, currentUser.id)}>Delete</button>
-							</>
-						)}
-					</li>
-				))}
-			</ul>
+				<ul>
+					{displayPosts.map((post) => (
+						<li key={post.id}>
+							<Link to={`/post/${post.id}`}>
+								<div className="post-container">
+									<div className="post-content">
+										<p className="post-title">{post.title}</p>
+										<p className="post-description">{post.content}</p>
+									</div>
+									<hr />
+								</div>
+							</Link>
+
+							{currentUser && (currentUser.id === post.userId || currentUser.role === 'admin') && (
+								<>
+									<button onClick={() => openEditModal(post)}>Edit</button>
+									<button onClick={() => deletePost(post.id, currentUser.id)}>Delete</button>
+								</>
+							)}
+						</li>
+					))}
+				</ul>
+			</div>
 			{isCreateModalOpen && (
 				<Modal onClose={closeModal}>
 					<CreatePost onClose={closeModal} addPost={addPost} />
@@ -156,7 +169,7 @@ function Home() {
 					<EditPost onClose={closeEditModal} post={currentPost} updatePost={updatePost} />
 				</Modal>
 			)}
-		</div>
+		</>
 	);
 }
 

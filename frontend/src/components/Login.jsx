@@ -94,7 +94,7 @@ function Login() {
 							(emailError === '' ? (
 								<i className="fa-solid fa-circle-check"></i>
 							) : (
-								<i className="fa-solid fa-circle-xmark"></i>
+								<i className="fa-solid fa-circle-xmark fa-cx"></i>
 							))}
 					</div>
 					<p
@@ -125,7 +125,7 @@ function Login() {
 							(passwordError === '' ? (
 								<i className="fa-solid fa-circle-check"></i>
 							) : (
-								<i className="fa-solid fa-circle-xmark"></i>
+								<i className="fa-solid fa-circle-xmark fa-cx"></i>
 							))}
 					</div>
 					<p
