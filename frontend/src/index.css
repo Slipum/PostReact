@@ -16,7 +16,7 @@ a {
 
 hr {
 	margin: 5px 0;
-	border: 2px solid #cecece;
+	border: 1px solid #dad9d9;
 }
 
 /* Auth-styles */
@@ -209,8 +209,17 @@ hr {
 
 /* Home-styles */
 
+.add-post {
+	padding: 10px;
+	transition: 0.5s;
+	border-radius: 15px;
+}
+
+.add-post:hover {
+	background-color: #dad9d9;
+}
+
 .add-post button i {
-	color: #303030;
 	font-size: 35px;
 	cursor: pointer;
 }
@@ -227,16 +236,17 @@ hr {
 .post-container {
 	font-size: 1.4rem;
 	width: auto;
-	margin-bottom: 10px;
+	margin: 5px 0;
 }
 
 .post-content {
+	padding-bottom: 0.05px;
 	transition: 0.5s;
 	padding-left: 20px;
 }
 
 .post-content:hover {
-	background-color: #bdbbbb;
+	background-color: #dad9d9;
 	border-radius: 0.5rem;
 }
 
@@ -275,7 +285,7 @@ hr {
 }
 
 .posts-head .add-post button i {
-	color: #303030;
+	color: #000000;
 	font-size: 35px;
 }
 

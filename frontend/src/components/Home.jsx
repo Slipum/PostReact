@@ -14,11 +14,13 @@ function Home() {
 	const [currentUser, setCurrentUser] = useState(null);
 	const [searchResults, setSearchResults] = useState([]);
 	const [searchQuery, setSearchQuery] = useState('');
+	const [totalPosts, setTotalPosts] = useState(0);
 
 	useEffect(() => {
 		const fetchPosts = async () => {
 			const response = await axios.get('http://localhost:3001/posts');
 			setPosts(response.data);
+			setTotalPosts(response.data.length);
 		};
 
 		const fetchCurrentUser = async () => {
@@ -127,7 +129,7 @@ function Home() {
 			<Header onSearch={handleSearch} onClearSearch={clearSearchResults} />
 			<div className="posts-container">
 				<div className="posts-head">
-					<h2>Posts</h2>
+					<h2>Posts ({totalPosts})</h2>
 					{currentUser && (
 						<div className="add-post">
 							<button onClick={openModal}>
@@ -145,7 +147,6 @@ function Home() {
 										<p className="post-title">{post.title}</p>
 										<p className="post-description">{post.content}</p>
 									</div>
-									<hr />
 								</div>
 							</Link>
 
@@ -155,6 +156,7 @@ function Home() {
 									<button onClick={() => deletePost(post.id, currentUser.id)}>Delete</button>
 								</>
 							)}
+							<hr />
 						</li>
 					))}
 				</ul>
