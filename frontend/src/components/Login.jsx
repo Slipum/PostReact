@@ -72,7 +72,7 @@ function Login() {
 				<form onSubmit={handleLogin} noValidate>
 					<h2>Auth</h2>
 					<p className="auth-title">Welcome back</p>
-					<div className={`form-controll ${!emailTouched ? 'input-mar' : ''}`}>
+					<div className="form-controll">
 						<label
 							className={`form-label ${
 								emailTouched ? (emailError === '' ? 'fvalid' : 'finvalid') : ''
@@ -97,8 +97,13 @@ function Login() {
 								<i className="fa-solid fa-circle-xmark"></i>
 							))}
 					</div>
-					{emailTouched && emailError !== '' && <p className="error-message">{emailError}</p>}
-					<div className={`form-controll ${!passwordTouched ? 'input-mar' : ''}`}>
+					<p
+						className={`error-message ${
+							emailTouched && emailError !== '' ? 'visibality-er' : 'hidden-er'
+						}`}>
+						{emailError}
+					</p>
+					<div className="form-controll">
 						<label
 							className={`form-label ${
 								passwordTouched ? (passwordError === '' ? 'fvalid' : 'finvalid') : ''
@@ -123,13 +128,18 @@ function Login() {
 								<i className="fa-solid fa-circle-xmark"></i>
 							))}
 					</div>
-					{passwordTouched && passwordError !== '' && (
-						<p className="error-message">{passwordError}</p>
-					)}
+					<p
+						className={`error-message ${
+							passwordTouched && passwordError !== '' ? 'visibality-er' : 'hidden-er'
+						}`}>
+						{passwordError}
+					</p>
 					{error && <p className="error">{error}</p>}
 					<button type="submit">Login</button>
 					<div className="quest">
-						<a href="/register">Don't have an account?</a>
+						<p>
+							Don't have an <a href="/register">account?</a>
+						</p>
 					</div>
 				</form>
 			</div>

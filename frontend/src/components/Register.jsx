@@ -91,7 +91,7 @@ function Register() {
 				<form onSubmit={handleRegister} noValidate>
 					<h2>Auth</h2>
 					<p className="auth-title">Create an account</p>
-					<div className={`form-controll ${!usernameTouched ? 'input-mar' : ''}`}>
+					<div className="form-controll">
 						<label
 							className={`form-label ${
 								usernameTouched ? (usernameError === '' ? 'fvalid' : 'finvalid') : ''
@@ -116,10 +116,13 @@ function Register() {
 								<i className="fa-solid fa-circle-xmark"></i>
 							))}
 					</div>
-					{usernameTouched && usernameError !== '' && (
-						<p className="error-message">{usernameError}</p>
-					)}
-					<div className={`form-controll ${!emailTouched ? 'input-mar' : ''}`}>
+					<p
+						className={`error-message ${
+							usernameTouched && usernameError !== '' ? 'visibality-er' : 'hidden-er'
+						}`}>
+						{usernameError}
+					</p>
+					<div className="form-controll">
 						<label
 							className={`form-label ${
 								emailTouched ? (emailError === '' ? 'fvalid' : 'finvalid') : ''
@@ -144,8 +147,13 @@ function Register() {
 								<i className="fa-solid fa-circle-xmark"></i>
 							))}
 					</div>
-					{emailTouched && emailError !== '' && <p className="error-message">{emailError}</p>}
-					<div className={`form-controll ${!passwordTouched ? 'input-mar' : ''}`}>
+					<p
+						className={`error-message ${
+							emailTouched && emailError !== '' ? 'visibality-er' : 'hidden-er'
+						}`}>
+						{emailError}
+					</p>
+					<div className="form-controll">
 						<label
 							className={`form-label ${
 								passwordTouched ? (passwordError === '' ? 'fvalid' : 'finvalid') : ''
@@ -170,13 +178,18 @@ function Register() {
 								<i className="fa-solid fa-circle-xmark"></i>
 							))}
 					</div>
-					{passwordTouched && passwordError !== '' && (
-						<p className="error-message">{passwordError}</p>
-					)}
+					<p
+						className={`error-message ${
+							passwordTouched && passwordError !== '' ? 'visibality-er' : 'hidden-er'
+						}`}>
+						{passwordError}
+					</p>
 					{error && <p className="error">{error}</p>}
 					<button type="submit">Create an account</button>
 					<div className="quest">
-						<a href="/login">Alredy have an account?</a>
+						<p>
+							Alredy have an <a href="/login">account?</a>
+						</p>
 					</div>
 				</form>
 			</div>

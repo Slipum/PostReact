@@ -52,10 +52,6 @@ a {
 	height: 50px;
 }
 
-.input-mar {
-	margin-bottom: 1.5rem;
-}
-
 .form-input {
 	position: absolute;
 	top: 0;
@@ -124,6 +120,12 @@ a {
 	text-align: center;
 }
 
+.quest p {
+	padding: 1px;
+	font-weight: 300;
+	color: #303030;
+}
+
 .quest a {
 	padding: 1px;
 	border-bottom: 0.5px solid #303030;
@@ -136,8 +138,16 @@ a {
 	color: red;
 }
 
+.visibality-er {
+	visibility: visible;
+}
+
+.hidden-er {
+	visibility: hidden;
+}
+
 .error-message {
-	margin: 5px 0px 1rem 15px;
+	margin: 5px 0px 0.7rem 15px;
 }
 
 .fa-circle-check {
