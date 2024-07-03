@@ -84,14 +84,14 @@ function Register() {
 		<div className="auntification">
 			<div className="icon-container">
 				<a href="/">
-					<i class="fa-solid fa-arrow-left"></i>
+					<i className="fa-solid fa-arrow-left"></i>
 				</a>
 			</div>
 			<div className="auth-container">
 				<form onSubmit={handleRegister} noValidate>
 					<h2>Auth</h2>
 					<p className="auth-title">Create an account</p>
-					<div className="form-controll">
+					<div className={`form-controll ${!usernameTouched ? 'input-mar' : ''}`}>
 						<label
 							className={`form-label ${
 								usernameTouched ? (usernameError === '' ? 'fvalid' : 'finvalid') : ''
@@ -116,7 +116,10 @@ function Register() {
 								<i className="fa-solid fa-circle-xmark"></i>
 							))}
 					</div>
-					<div className="form-controll">
+					{usernameTouched && usernameError !== '' && (
+						<p className="error-message">{usernameError}</p>
+					)}
+					<div className={`form-controll ${!emailTouched ? 'input-mar' : ''}`}>
 						<label
 							className={`form-label ${
 								emailTouched ? (emailError === '' ? 'fvalid' : 'finvalid') : ''
@@ -141,7 +144,8 @@ function Register() {
 								<i className="fa-solid fa-circle-xmark"></i>
 							))}
 					</div>
-					<div className="form-controll">
+					{emailTouched && emailError !== '' && <p className="error-message">{emailError}</p>}
+					<div className={`form-controll ${!passwordTouched ? 'input-mar' : ''}`}>
 						<label
 							className={`form-label ${
 								passwordTouched ? (passwordError === '' ? 'fvalid' : 'finvalid') : ''
@@ -166,6 +170,9 @@ function Register() {
 								<i className="fa-solid fa-circle-xmark"></i>
 							))}
 					</div>
+					{passwordTouched && passwordError !== '' && (
+						<p className="error-message">{passwordError}</p>
+					)}
 					{error && <p className="error">{error}</p>}
 					<button type="submit">Create an account</button>
 					<div className="quest">

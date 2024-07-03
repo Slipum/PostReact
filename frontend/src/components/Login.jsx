@@ -65,14 +65,14 @@ function Login() {
 		<div className="auntification">
 			<div className="icon-container">
 				<a href="/">
-					<i class="fa-solid fa-arrow-left"></i>
+					<i className="fa-solid fa-arrow-left"></i>
 				</a>
 			</div>
 			<div className="auth-container">
 				<form onSubmit={handleLogin} noValidate>
 					<h2>Auth</h2>
 					<p className="auth-title">Welcome back</p>
-					<div className="form-controll">
+					<div className={`form-controll ${!emailTouched ? 'input-mar' : ''}`}>
 						<label
 							className={`form-label ${
 								emailTouched ? (emailError === '' ? 'fvalid' : 'finvalid') : ''
@@ -97,7 +97,8 @@ function Login() {
 								<i className="fa-solid fa-circle-xmark"></i>
 							))}
 					</div>
-					<div className="form-controll">
+					{emailTouched && emailError !== '' && <p className="error-message">{emailError}</p>}
+					<div className={`form-controll ${!passwordTouched ? 'input-mar' : ''}`}>
 						<label
 							className={`form-label ${
 								passwordTouched ? (passwordError === '' ? 'fvalid' : 'finvalid') : ''
@@ -122,6 +123,9 @@ function Login() {
 								<i className="fa-solid fa-circle-xmark"></i>
 							))}
 					</div>
+					{passwordTouched && passwordError !== '' && (
+						<p className="error-message">{passwordError}</p>
+					)}
 					{error && <p className="error">{error}</p>}
 					<button type="submit">Login</button>
 					<div className="quest">

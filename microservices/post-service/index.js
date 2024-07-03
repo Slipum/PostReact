@@ -44,6 +44,51 @@ app.post('/posts', authenticateToken, (req, res) => {
 	);
 });
 
+app.put('/posts/:id', authenticateToken, (req, res) => {
+	const { id } = req.params;
+	const { title, content } = req.body;
+	const userId = req.user.id;
+	const userRole = req.user.role;
+
+	if (userRole === 'admin' || userId === req.body.userId) {
+		db.run(
+			'UPDATE posts SET title = ?, content = ? WHERE id = ?',
+			[title, content, id],
+			function (err) {
+				if (err) {
+					return res.status(500).json({ error: err.message });
+				}
+				if (this.changes === 0) {
+					return res.status(404).json({ error: 'Post not found' });
+				}
+				res.status(200).json({ id, title, content });
+			},
+		);
+	} else {
+		res.status(403).json({ error: 'Unauthorized' });
+	}
+});
+
+app.delete('/posts/:id', authenticateToken, (req, res) => {
+	const { id } = req.params;
+	const userRole = req.user.role;
+	const userId = req.user.id;
+
+	if (userRole === 'admin' || userId === req.body.userId) {
+		db.run('DELETE FROM posts WHERE id = ?', [id], function (err) {
+			if (err) {
+				return res.status(500).json({ error: err.message });
+			}
+			if (this.changes === 0) {
+				return res.status(404).json({ error: 'Post not found' });
+			}
+			res.status(204).send();
+		});
+	} else {
+		res.status(403).json({ error: 'Unauthorized' });
+	}
+});
+
 app.get('/posts/:id', (req, res) => {
 	const postId = req.params.id;
 	db.get('SELECT * FROM posts WHERE id = ?', [postId], (err, row) => {

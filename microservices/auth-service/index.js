@@ -108,7 +108,7 @@ app.post('/posts', authenticateToken, (req, res) => {
 
 app.get('/profile', authenticateToken, (req, res) => {
 	const userId = req.user.id;
-	db.get('SELECT id, username, role FROM users WHERE id = ?', [userId], (err, user) => {
+	db.get('SELECT id, username, email, role FROM users WHERE id = ?', [userId], (err, user) => {
 		if (err) {
 			return res.status(500).json({ error: err.message });
 		}

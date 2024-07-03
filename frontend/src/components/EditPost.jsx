@@ -1,20 +1,21 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 
-function CreatePost({ onClose, addPost }) {
-	const [title, setTitle] = useState('');
-	const [content, setContent] = useState('');
+function EditPost({ onClose, post, updatePost }) {
+	const [title, setTitle] = useState(post.title);
+	const [content, setContent] = useState(post.content);
 	const [error, setError] = useState('');
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
 			const token = localStorage.getItem('token');
-			const response = await axios.post(
-				'http://localhost:3001/posts',
+			const response = await axios.put(
+				`http://localhost:3001/posts/${post.id}`,
 				{
 					title,
 					content,
+					userId: post.userId,
 				},
 				{
 					headers: {
@@ -22,20 +23,20 @@ function CreatePost({ onClose, addPost }) {
 					},
 				},
 			);
-			addPost(response.data);
+			updatePost(response.data);
 			onClose();
 		} catch (err) {
 			if (err.response) {
-				setError(`Failed to create post: ${err.response.data.error}`);
+				setError(`Failed to update post: ${err.response.data.error}`);
 			} else {
-				setError('Failed to create post');
+				setError('Failed to update post');
 			}
 		}
 	};
 
 	return (
 		<div>
-			<h2>Create Post</h2>
+			<h2>Edit Post</h2>
 			<form onSubmit={handleSubmit}>
 				<div>
 					<label>Title:</label>
@@ -46,10 +47,10 @@ function CreatePost({ onClose, addPost }) {
 					<textarea value={content} onChange={(e) => setContent(e.target.value)} required />
 				</div>
 				{error && <p>{error}</p>}
-				<button type="submit">Create Post</button>
+				<button type="submit">Update Post</button>
 			</form>
 		</div>
 	);
 }
 
-export default CreatePost;
+export default EditPost;

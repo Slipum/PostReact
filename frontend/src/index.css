@@ -38,7 +38,7 @@ a {
 
 .auth-container form h2 {
 	text-align: center;
-	font-weight: 1000;
+	font-weight: 700;
 }
 
 .auth-title {
@@ -50,6 +50,9 @@ a {
 .form-controll {
 	position: relative;
 	height: 50px;
+}
+
+.input-mar {
 	margin-bottom: 1.5rem;
 }
 
@@ -109,7 +112,8 @@ a {
 	cursor: pointer;
 	font-size: 16px;
 	transition: all 0.3s ease;
-	margin: 15px 0;
+	margin-top: 10px;
+	margin-bottom: 15px;
 }
 
 .auth-container form button:hover {
@@ -120,8 +124,20 @@ a {
 	text-align: center;
 }
 
-.error {
+.quest a {
+	padding: 1px;
+	border-bottom: 0.5px solid #303030;
+	font-weight: 300;
+	color: #303030;
+}
+
+.error,
+.error-message {
 	color: red;
+}
+
+.error-message {
+	margin: 5px 0px 1rem 15px;
 }
 
 .fa-circle-check {
@@ -168,6 +184,55 @@ a {
 	padding-left: 10px;
 	padding-top: 5px;
 	font-size: 30px;
+}
+
+/* ----------- */
+
+/* Home-styles */
+
+.add-post {
+	margin: 10px;
+}
+
+.add-post button i {
+	color: #303030;
+	font-size: 30px;
+}
+
+.add-post button {
+	border: 0px;
+}
+
+/* ----------- */
+
+/* Modal.css */
+.modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.modal-content {
+	background: white;
+	padding: 20px;
+	border-radius: 8px;
+	position: relative;
+}
+
+.close-button {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	background: none;
+	border: none;
+	font-size: 24px;
+	cursor: pointer;
 }
 
 /* ----------- */

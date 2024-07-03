@@ -48,6 +48,7 @@ function Profile() {
 		<div>
 			<h2>Profile</h2>
 			<p>Username: {profile.username}</p>
+			<p>Email: {profile.email}</p>
 			<p>Role: {profile.role}</p>
 			<button onClick={handleLogout}>Logout</button>
 		</div>
