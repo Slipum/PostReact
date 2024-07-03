@@ -29,6 +29,38 @@ const authenticateToken = (req, res, next) => {
 	});
 };
 
+// Для поиска по заголовкам
+app.get('/posts/search', (req, res) => {
+	const { q } = req.query;
+	const lowercaseQuery = q.toLowerCase();
+
+	db.all('SELECT * FROM posts WHERE LOWER(title) LIKE ?', [`%${lowercaseQuery}%`], (err, rows) => {
+		if (err) {
+			return res.status(500).json({ error: err.message });
+		}
+		res.json(rows);
+	});
+});
+
+// Для поиска по пользователям (@<username>)
+app.get('/posts/search/user', (req, res) => {
+	const { q } = req.query;
+	const usernameQuery = q.slice(1);
+
+	db.all(
+		`SELECT posts.* FROM posts
+		INNER JOIN users ON posts.userId = users.id
+		WHERE LOWER(users.username) LIKE ?`,
+		[`%${usernameQuery.toLowerCase()}%`],
+		(err, rows) => {
+			if (err) {
+				return res.status(500).json({ error: err.message });
+			}
+			res.json(rows);
+		},
+	);
+});
+
 app.post('/posts', authenticateToken, (req, res) => {
 	const { title, content } = req.body;
 	const userId = req.user.id;

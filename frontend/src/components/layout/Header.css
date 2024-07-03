@@ -13,9 +13,16 @@
 	color: white;
 }
 
+.h-logo {
+	width: 150px;
+}
+
 .h-logo h1 {
-	margin: 0;
 	color: white;
+}
+
+.h-nav {
+	margin: 0 120px;
 }
 
 .h-nav ul {
@@ -53,9 +60,25 @@
 
 .h-auth {
 	cursor: pointer;
+	width: 150px;
+	text-align: end;
 }
 
 .h-auth a {
 	padding: 0px 8px;
 	color: white;
+}
+
+.search-container button {
+	font-size: 1rem;
+}
+
+.search-container input {
+	font-size: 1rem;
+	width: 300px;
+	transition: 0.5s;
+}
+
+.search-container input:focus {
+	width: 400px;
 }

@@ -10,7 +10,7 @@ This project is a web application that allows users to publish content, rate pos
 
 - **Publishing Content**: Users can create and edit posts.
 - **Rating System**: Users can like and dislike posts.
-- **Search**: Ability to search posts by keywords.
+- **Search**: Ability to search posts by keywords and users by username.
 - **Comments**: Users can leave comments on posts.
 - **Upvote/Downvote System**: Users can vote for or against posts.
 - **Admin Panel**: Administrators can manage users and delete posts.
@@ -72,11 +72,13 @@ This project is a web application that allows users to publish content, rate pos
 
 - **POST /register**: Register a new user.
 - **POST /login**: Authenticate a user.
-- **GET /profile**: Get profile information
+- **GET /profile**: Get profile information.
 
 #### Posts (port 3001)
 
 - **GET /posts/:id**: Get post information by ID.
+- **GET /posts/search**: Search posts by title.
+- **GET /posts/search/user**: Search posts by username.
 
 #### Ratings (port 3002)
 
@@ -93,6 +95,14 @@ This project is a web application that allows users to publish content, rate pos
 
 - **GET /users**: Get all users.
 - **DELETE /posts/:id**: Delete post by ID.
+
+### Search Functionality
+
+The search functionality allows users to search for posts by title and for posts by username.
+
+- **Search by Title**: Users can search for posts by entering keywords in the search bar. The search will return posts whose titles contain the entered keywords.
+
+- **Search by Username**: Users can search for posts by entering a username preceded by an "@" symbol in the search bar. The search will return posts created by users whose usernames contain the entered substring.
 
 ### Authentication and Roles
 

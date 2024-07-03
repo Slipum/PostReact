@@ -2,8 +2,9 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import './Header.css';
 
-function Header() {
+function Header({ onSearch, onClearSearch }) {
 	const [profile, setProfile] = useState(null);
+	const [searchQuery, setSearchQuery] = useState('');
 
 	useEffect(() => {
 		const fetchProfile = async () => {
@@ -23,6 +24,17 @@ function Header() {
 		fetchProfile();
 	}, []);
 
+	const handleSearchChange = (e) => {
+		const query = e.target.value;
+		setSearchQuery(query);
+		onSearch(query);
+	};
+
+	const handleClearSearch = () => {
+		setSearchQuery('');
+		onClearSearch();
+	};
+
 	return (
 		<header className="header-container">
 			<div className="h-logo">
@@ -30,16 +42,19 @@ function Header() {
 					<h1>PostReact</h1>
 				</a>
 			</div>
-			<nav className="h-nav">
-				<ul>
-					<li>
-						<a href="/">Home</a>
-					</li>
-					<li>
-						<a href="/about">About us</a>
-					</li>
-				</ul>
-			</nav>
+			<div className="search-container">
+				{window.location.pathname === '/' && (
+					<div>
+						<input
+							type="text"
+							placeholder="Search posts or users"
+							value={searchQuery}
+							onChange={handleSearchChange}
+						/>
+						<button onClick={handleClearSearch}>Clear</button>
+					</div>
+				)}
+			</div>
 			<div className="h-auth">
 				{profile ? (
 					<>

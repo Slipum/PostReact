@@ -12,6 +12,8 @@ function Home() {
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 	const [currentPost, setCurrentPost] = useState(null);
 	const [currentUser, setCurrentUser] = useState(null);
+	const [searchResults, setSearchResults] = useState([]);
+	const [searchQuery, setSearchQuery] = useState('');
 
 	useEffect(() => {
 		const fetchPosts = async () => {
@@ -84,6 +86,30 @@ function Home() {
 		}
 	};
 
+	const handleSearch = async (query) => {
+		try {
+			let response;
+			if (query.startsWith('@')) {
+				response = await axios.get(
+					`http://localhost:3001/posts/search/user?q=${encodeURIComponent(query)}`,
+				);
+			} else {
+				response = await axios.get(
+					`http://localhost:3001/posts/search?q=${encodeURIComponent(query)}`,
+				);
+			}
+			setSearchResults(response.data);
+		} catch (err) {
+			console.error('Error searching posts', err);
+		}
+		setSearchQuery(query);
+	};
+
+	const clearSearchResults = () => {
+		setSearchResults([]);
+		setSearchQuery('');
+	};
+
 	useEffect(() => {
 		if (!isCreateModalOpen || !isEditModalOpen) {
 			const fetchPosts = async () => {
@@ -94,17 +120,21 @@ function Home() {
 		}
 	}, [isCreateModalOpen, isEditModalOpen]);
 
+	const displayPosts = searchQuery ? searchResults : posts;
+
 	return (
 		<div>
-			<Header />
-			<div className="add-post">
-				<button onClick={openModal}>
-					<i className="fa-solid fa-circle-plus"></i>
-				</button>
-			</div>
+			<Header onSearch={handleSearch} onClearSearch={clearSearchResults} />
+			{currentUser && (
+				<div className="add-post">
+					<button onClick={openModal}>
+						<i className="fa-solid fa-circle-plus"></i>
+					</button>
+				</div>
+			)}
 			<h2>Posts</h2>
 			<ul>
-				{posts.map((post) => (
+				{displayPosts.map((post) => (
 					<li key={post.id}>
 						<Link to={`/post/${post.id}`}>{post.title}</Link>
 						{currentUser && (currentUser.id === post.userId || currentUser.role === 'admin') && (
