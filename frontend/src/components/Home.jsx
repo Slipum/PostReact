@@ -235,34 +235,41 @@ function Home() {
 				<ul>
 					{displayPosts.map((post, index) => (
 						<li key={post.id}>
-							<Link to={`/post/${post.id}`}>
-								<div className="post-container">
-									<div className="post-content">
+							<div className="post-container">
+								<div className="post-content">
+									<Link to={`/post/${post.id}`}>
 										<div>
 											<p className="post-title">{post.title}</p>
 											<p className="post-description">{post.content}</p>
 										</div>
-										<div className="post-details">
-											{(!currentUser || currentUser.id !== post.userId) && (
-												<p className="post-author">— {post.author}</p>
-											)}
-											<p className="post-date">{formatDate(post.createdAt)}</p>
-										</div>
+									</Link>
+									{currentUser &&
+										(currentUser.id === post.userId || currentUser.role === 'admin') && (
+											<div className="more-menu" ref={(el) => (moreMenuRefs.current[index] = el)}>
+												<button onClick={() => handleMoreClick(post.id)}>
+													<i class="fa-solid fa-ellipsis"></i>
+												</button>
+												{activePost === post.id && (
+													<div className="dropdown-menu">
+														<button onClick={() => openEditModal(post)}>
+															<i class="fa-solid fa-pen"></i> Edit
+														</button>
+														<button onClick={() => deletePost(post.id, currentUser.id)}>
+															<i class="fa-regular fa-trash-can"></i> Delete
+														</button>
+													</div>
+												)}
+											</div>
+										)}
+									<div className="post-details">
+										{(!currentUser || currentUser.id !== post.userId) && (
+											<p className="post-author">— {post.author}</p>
+										)}
+										<p className="post-date">{formatDate(post.createdAt)}</p>
 									</div>
 								</div>
-							</Link>
+							</div>
 
-							{currentUser && (currentUser.id === post.userId || currentUser.role === 'admin') && (
-								<div className="more-menu" ref={(el) => (moreMenuRefs.current[index] = el)}>
-									<button onClick={() => handleMoreClick(post.id)}>More</button>
-									{activePost === post.id && (
-										<div className="dropdown-menu">
-											<button onClick={() => openEditModal(post)}>Edit</button>
-											<button onClick={() => deletePost(post.id, currentUser.id)}>Delete</button>
-										</div>
-									)}
-								</div>
-							)}
 							<hr />
 						</li>
 					))}

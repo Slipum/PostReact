@@ -248,7 +248,7 @@ hr {
 }
 
 .post-author {
-	font-size: 18px;
+	font-size: 14px;
 	position: absolute;
 	bottom: 15px;
 	right: 10px;
@@ -256,7 +256,7 @@ hr {
 }
 
 .post-date {
-	font-size: 16px;
+	font-size: 12px;
 	position: absolute;
 	bottom: 0px;
 	right: 10px;
@@ -312,7 +312,10 @@ hr {
 }
 
 .more-menu {
-	position: relative;
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding: 0 10px;
 	display: inline-block;
 }
 
@@ -326,13 +329,16 @@ hr {
 
 .dropdown-menu {
 	position: absolute;
-	right: 0;
+	left: 100%;
+	top: 0;
+	margin-left: 10px;
 	background-color: #ffffff;
 	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 	z-index: 1;
 }
 
 .dropdown-menu button {
+	white-space: nowrap;
 	display: block;
 	width: 100%;
 	padding: 8px 16px;
