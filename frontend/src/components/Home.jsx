@@ -16,7 +16,7 @@ function Home() {
 	const [searchQuery, setSearchQuery] = useState('');
 	const [totalPosts, setTotalPosts] = useState(0);
 	const [activePost, setActivePost] = useState(null);
-	const moreMenuRef = useRef(null);
+	const moreMenuRefs = useRef([]);
 
 	useEffect(() => {
 		const fetchPosts = async () => {
@@ -61,6 +61,10 @@ function Home() {
 		fetchCurrentUser();
 		fetchPosts();
 	}, []);
+
+	useEffect(() => {
+		moreMenuRefs.current = moreMenuRefs.current.slice(0, posts.length);
+	}, [posts]);
 
 	const openModal = () => {
 		setIsCreateModalOpen(true);
@@ -144,7 +148,7 @@ function Home() {
 	};
 
 	useEffect(() => {
-		if (!isCreateModalOpen || !isEditModalOpen) {
+		if (!isCreateModalOpen && !isEditModalOpen) {
 			const fetchPosts = async () => {
 				const response = await axios.get('http://localhost:3001/posts');
 				setPosts(response.data);
@@ -189,7 +193,7 @@ function Home() {
 	};
 
 	const closeMoreMenu = (e) => {
-		if (moreMenuRef.current && !moreMenuRef.current.contains(e.target)) {
+		if (!moreMenuRefs.current.some((ref) => ref && ref.contains(e.target))) {
 			setActivePost(null);
 		}
 	};
@@ -229,7 +233,7 @@ function Home() {
 					)}
 				</div>
 				<ul>
-					{displayPosts.map((post) => (
+					{displayPosts.map((post, index) => (
 						<li key={post.id}>
 							<Link to={`/post/${post.id}`}>
 								<div className="post-container">
@@ -249,7 +253,7 @@ function Home() {
 							</Link>
 
 							{currentUser && (currentUser.id === post.userId || currentUser.role === 'admin') && (
-								<div className="more-menu" ref={moreMenuRef}>
+								<div className="more-menu" ref={(el) => (moreMenuRefs.current[index] = el)}>
 									<button onClick={() => handleMoreClick(post.id)}>More</button>
 									{activePost === post.id && (
 										<div className="dropdown-menu">
