@@ -6,7 +6,7 @@
 
 ---
 
-### Preview
+### Предпросмотр
 
 <div>
 	<img src='./assets/image.png' />
