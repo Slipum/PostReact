@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import CreatePost from './CreatePost';
 import EditPost from './EditPost';
@@ -15,12 +15,31 @@ function Home() {
 	const [searchResults, setSearchResults] = useState([]);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [totalPosts, setTotalPosts] = useState(0);
+	const [activePost, setActivePost] = useState(null);
+	const moreMenuRef = useRef(null);
 
 	useEffect(() => {
 		const fetchPosts = async () => {
-			const response = await axios.get('http://localhost:3001/posts');
-			setPosts(response.data);
-			setTotalPosts(response.data.length);
+			try {
+				const response = await axios.get('http://localhost:3001/posts');
+				setPosts(response.data);
+				setTotalPosts(response.data.length);
+
+				const postsWithDetails = await Promise.all(
+					response.data.map(async (post) => {
+						const userResponse = await axios.get(`http://localhost:3000/users/${post.userId}`);
+						return {
+							...post,
+							author: userResponse.data.username,
+							createdAt: new Date(post.createdAt),
+						};
+					}),
+				);
+
+				setPosts(postsWithDetails);
+			} catch (err) {
+				console.error('Error fetching posts', err);
+			}
 		};
 
 		const fetchCurrentUser = async () => {
@@ -100,7 +119,19 @@ function Home() {
 					`http://localhost:3001/posts/search?q=${encodeURIComponent(query)}`,
 				);
 			}
-			setSearchResults(response.data);
+
+			const searchResultsWithDetails = await Promise.all(
+				response.data.map(async (post) => {
+					const userResponse = await axios.get(`http://localhost:3000/users/${post.userId}`);
+					return {
+						...post,
+						author: userResponse.data.username,
+						createdAt: new Date(post.createdAt),
+					};
+				}),
+			);
+
+			setSearchResults(searchResultsWithDetails);
 		} catch (err) {
 			console.error('Error searching posts', err);
 		}
@@ -124,6 +155,65 @@ function Home() {
 
 	const displayPosts = searchQuery ? searchResults : posts;
 
+	// Функция для форматирования даты
+	const formatDate = (date) => {
+		const now = new Date();
+		const postDate = new Date(date);
+
+		const diffInMilliseconds = now - postDate;
+		const diffInSeconds = diffInMilliseconds / 1000;
+		const diffInMinutes = diffInSeconds / 60;
+		const diffInHours = diffInMinutes / 60;
+		const diffInDays = diffInHours / 24;
+
+		if (diffInMinutes < 60) {
+			// Если менее 1 часа назад, показываем часы и минуты
+			return `${postDate.getHours()}:${postDate.getMinutes()}`;
+		} else if (diffInDays < 7) {
+			// Если менее 7 дней назад, показываем день недели и часы с минутами
+			const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+			const dayOfWeek = daysOfWeek[postDate.getDay()];
+			return `${dayOfWeek} ${postDate.getHours()}:${postDate.getMinutes()}`;
+		} else {
+			// Более 7 дней назад, показываем число с месяцем и часы с минутами
+			const formattedDate = postDate.toLocaleDateString('en-GB', {
+				day: 'numeric',
+				month: 'short',
+			});
+			return `${formattedDate} ${postDate.getHours()}:${postDate.getMinutes()}`;
+		}
+	};
+
+	const handleMoreClick = (postId) => {
+		setActivePost(postId === activePost ? null : postId);
+	};
+
+	const closeMoreMenu = (e) => {
+		if (moreMenuRef.current && !moreMenuRef.current.contains(e.target)) {
+			setActivePost(null);
+		}
+	};
+
+	useEffect(() => {
+		document.addEventListener('click', closeMoreMenu);
+		document.addEventListener('scroll', closeMoreMenu);
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape') {
+				setActivePost(null);
+			}
+		});
+
+		return () => {
+			document.removeEventListener('click', closeMoreMenu);
+			document.removeEventListener('scroll', closeMoreMenu);
+			document.removeEventListener('keydown', (e) => {
+				if (e.key === 'Escape') {
+					setActivePost(null);
+				}
+			});
+		};
+	}, []);
+
 	return (
 		<>
 			<Header onSearch={handleSearch} onClearSearch={clearSearchResults} />
@@ -144,17 +234,30 @@ function Home() {
 							<Link to={`/post/${post.id}`}>
 								<div className="post-container">
 									<div className="post-content">
-										<p className="post-title">{post.title}</p>
-										<p className="post-description">{post.content}</p>
+										<div>
+											<p className="post-title">{post.title}</p>
+											<p className="post-description">{post.content}</p>
+										</div>
+										<div className="post-details">
+											{(!currentUser || currentUser.id !== post.userId) && (
+												<p className="post-author">— {post.author}</p>
+											)}
+											<p className="post-date">{formatDate(post.createdAt)}</p>
+										</div>
 									</div>
 								</div>
 							</Link>
 
 							{currentUser && (currentUser.id === post.userId || currentUser.role === 'admin') && (
-								<>
-									<button onClick={() => openEditModal(post)}>Edit</button>
-									<button onClick={() => deletePost(post.id, currentUser.id)}>Delete</button>
-								</>
+								<div className="more-menu" ref={moreMenuRef}>
+									<button onClick={() => handleMoreClick(post.id)}>More</button>
+									{activePost === post.id && (
+										<div className="dropdown-menu">
+											<button onClick={() => openEditModal(post)}>Edit</button>
+											<button onClick={() => deletePost(post.id, currentUser.id)}>Delete</button>
+										</div>
+									)}
+								</div>
 							)}
 							<hr />
 						</li>

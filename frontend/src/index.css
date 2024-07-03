@@ -240,9 +240,31 @@ hr {
 }
 
 .post-content {
+	justify-content: space-between;
 	padding-bottom: 0.05px;
 	transition: 0.5s;
 	padding-left: 20px;
+	position: relative;
+}
+
+.post-author {
+	font-size: 18px;
+	position: absolute;
+	bottom: 15px;
+	right: 10px;
+	opacity: 0.6;
+}
+
+.post-date {
+	font-size: 16px;
+	position: absolute;
+	bottom: 0px;
+	right: 10px;
+	opacity: 0.6;
+}
+
+.post-details {
+	position: relative;
 }
 
 .post-content:hover {
@@ -287,6 +309,41 @@ hr {
 .posts-head .add-post button i {
 	color: #000000;
 	font-size: 35px;
+}
+
+.more-menu {
+	position: relative;
+	display: inline-block;
+}
+
+.more-menu button {
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+	font-size: 1rem;
+	color: #000000;
+}
+
+.dropdown-menu {
+	position: absolute;
+	right: 0;
+	background-color: #ffffff;
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+}
+
+.dropdown-menu button {
+	display: block;
+	width: 100%;
+	padding: 8px 16px;
+	background-color: #ffffff;
+	border: none;
+	text-align: left;
+	cursor: pointer;
+}
+
+.dropdown-menu button:hover {
+	background-color: #f1f1f1;
 }
 
 /* ----------- */

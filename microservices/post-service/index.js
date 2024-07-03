@@ -13,7 +13,13 @@ const db = new sqlite3.Database('../database.db');
 
 db.serialize(() => {
 	db.run(
-		'CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, userId INTEGER)',
+		`CREATE TABLE IF NOT EXISTS posts (
+			id INTEGER PRIMARY KEY AUTOINCREMENT, 
+			title TEXT, 
+			content TEXT, 
+			userId INTEGER, 
+			createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
 	);
 });
 
@@ -48,9 +54,10 @@ app.get('/posts/search/user', (req, res) => {
 	const usernameQuery = q.slice(1);
 
 	db.all(
-		`SELECT posts.* FROM posts
-		INNER JOIN users ON posts.userId = users.id
-		WHERE LOWER(users.username) LIKE ?`,
+		`SELECT posts.*,
+				users.username AS author FROM posts
+        INNER JOIN users ON posts.userId = users.id
+        WHERE LOWER(users.username) LIKE ?`,
 		[`%${usernameQuery.toLowerCase()}%`],
 		(err, rows) => {
 			if (err) {
@@ -64,6 +71,7 @@ app.get('/posts/search/user', (req, res) => {
 app.post('/posts', authenticateToken, (req, res) => {
 	const { title, content } = req.body;
 	const userId = req.user.id;
+
 	db.run(
 		'INSERT INTO posts (title, content, userId) VALUES (?, ?, ?)',
 		[title, content, userId],
@@ -71,7 +79,13 @@ app.post('/posts', authenticateToken, (req, res) => {
 			if (err) {
 				return res.status(500).json({ error: err.message });
 			}
-			res.status(201).json({ id: this.lastID });
+
+			db.get('SELECT * FROM posts WHERE id = ?', [this.lastID], (err, row) => {
+				if (err) {
+					return res.status(500).json({ error: err.message });
+				}
+				res.status(201).json(row);
+			});
 		},
 	);
 });
@@ -93,7 +107,13 @@ app.put('/posts/:id', authenticateToken, (req, res) => {
 				if (this.changes === 0) {
 					return res.status(404).json({ error: 'Post not found' });
 				}
-				res.status(200).json({ id, title, content });
+
+				db.get('SELECT * FROM posts WHERE id = ?', [id], (err, row) => {
+					if (err) {
+						return res.status(500).json({ error: err.message });
+					}
+					res.status(200).json(row);
+				});
 			},
 		);
 	} else {
@@ -123,24 +143,32 @@ app.delete('/posts/:id', authenticateToken, (req, res) => {
 
 app.get('/posts/:id', (req, res) => {
 	const postId = req.params.id;
-	db.get('SELECT * FROM posts WHERE id = ?', [postId], (err, row) => {
-		if (err) {
-			return res.status(500).json({ error: err.message });
-		}
-		if (!row) {
-			return res.status(404).json({ error: 'Post not found' });
-		}
-		res.json(row);
-	});
+	db.get(
+		'SELECT posts.*, users.username AS author FROM posts INNER JOIN users ON posts.userId = users.id WHERE posts.id = ?',
+		[postId],
+		(err, row) => {
+			if (err) {
+				return res.status(500).json({ error: err.message });
+			}
+			if (!row) {
+				return res.status(404).json({ error: 'Post not found' });
+			}
+			res.json(row);
+		},
+	);
 });
 
 app.get('/posts', (req, res) => {
-	db.all('SELECT * FROM posts', [], (err, rows) => {
-		if (err) {
-			return res.status(500).json({ error: err.message });
-		}
-		res.json(rows);
-	});
+	db.all(
+		'SELECT posts.*, users.username AS author FROM posts INNER JOIN users ON posts.userId = users.id',
+		[],
+		(err, rows) => {
+			if (err) {
+				return res.status(500).json({ error: err.message });
+			}
+			res.json(rows);
+		},
+	);
 });
 
 app.listen(3001, () => {
