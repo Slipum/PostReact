@@ -201,21 +201,27 @@ function Home() {
 		const diffInHours = diffInMinutes / 60;
 		const diffInDays = diffInHours / 24;
 
-		if (diffInMinutes < 60) {
-			// Если менее 1 часа назад, показываем часы и минуты
-			return `${postDate.getHours()}:${postDate.getMinutes()}`;
+		if (diffInHours < 24) {
+			// Если менее 24 часов назад, показываем часы и минуты
+			return `${postDate.getHours().toString().padStart(2, '0')}:${postDate
+				.getMinutes()
+				.toString()
+				.padStart(2, '0')}`;
 		} else if (diffInDays < 7) {
-			// Если менее 7 дней назад, показываем день недели и часы с минутами
+			// Если более 24 часов, но менее 7 дней назад, показываем день недели и время
 			const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 			const dayOfWeek = daysOfWeek[postDate.getDay()];
-			return `${dayOfWeek} ${postDate.getHours()}:${postDate.getMinutes()}`;
+			return `${dayOfWeek} ${postDate.getHours().toString().padStart(2, '0')}:${postDate
+				.getMinutes()
+				.toString()
+				.padStart(2, '0')}`;
 		} else {
-			// Более 7 дней назад, показываем число с месяцем и часы с минутами
+			// Если более 7 дней назад, показываем день и месяц без времени
 			const formattedDate = postDate.toLocaleDateString('en-GB', {
 				day: 'numeric',
 				month: 'short',
 			});
-			return `${formattedDate} ${postDate.getHours()}:${postDate.getMinutes()}`;
+			return formattedDate;
 		}
 	};
 
