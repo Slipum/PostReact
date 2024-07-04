@@ -261,7 +261,7 @@ function Home() {
 			<div className="posts-container">
 				<div className="posts-head">
 					<h2>
-						<i class="fa-solid fa-newspaper"></i> Posts ({totalPosts})
+						<i className="fa-solid fa-newspaper"></i> Posts ({totalPosts})
 					</h2>
 					{currentUser && (
 						<div className="add-post">
@@ -276,6 +276,15 @@ function Home() {
 						<li key={post.id}>
 							<div className="post-container">
 								<div className="post-content">
+									{!currentUser || currentUser.id !== post.userId ? (
+										<p className="post-author">
+											<i className="fa-regular fa-circle-user"></i> {post.author}
+										</p>
+									) : (
+										<p className="post-author">
+											<i class="fa-solid fa-circle-user"></i> Me
+										</p>
+									)}
 									<Link to={`/post/${post.id}`}>
 										<div>
 											<p className="post-title">{post.title}</p>
@@ -301,14 +310,10 @@ function Home() {
 											</div>
 										)}
 									<div className="post-details">
-										{(!currentUser || currentUser.id !== post.userId) && (
-											<p className="post-author">— {post.author}</p>
-										)}
 										<p className="post-date">{formatDate(post.createdAt)}</p>
 									</div>
 								</div>
 							</div>
-
 							<hr />
 						</li>
 					))}
