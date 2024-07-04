@@ -68,7 +68,7 @@ This project is a web application that allows users to publish content, rate pos
 
 4. **Open the Application**
 
-   Open your browser and go to `http://localhost:3000`.
+   Open your browser and go to `http://localhost:3005`.
 
 ### Project Structure
 

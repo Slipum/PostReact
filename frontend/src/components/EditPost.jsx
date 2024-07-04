@@ -37,7 +37,7 @@ function EditPost({ onClose, post, updatePost }) {
 	return (
 		<div className="create-container">
 			<h2>
-				<i class="fa-solid fa-pen-to-square"></i> Edit Post
+				<i className="fa-solid fa-pen-to-square"></i> Edit Post
 			</h2>
 			<form onSubmit={handleSubmit}>
 				<div>

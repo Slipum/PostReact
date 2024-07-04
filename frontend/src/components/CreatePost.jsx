@@ -36,7 +36,7 @@ function CreatePost({ onClose, addPost }) {
 	return (
 		<div className="create-container">
 			<h2>
-				<i class="fa-regular fa-clipboard"></i> Create Post
+				<i className="fa-regular fa-clipboard"></i> Create Post
 			</h2>
 			<form onSubmit={handleSubmit}>
 				<div>

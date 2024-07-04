@@ -282,7 +282,7 @@ function Home() {
 										</p>
 									) : (
 										<p className="post-author">
-											<i class="fa-solid fa-circle-user"></i> Me
+											<i className="fa-solid fa-circle-user"></i> Me
 										</p>
 									)}
 									<Link to={`/post/${post.id}`}>
