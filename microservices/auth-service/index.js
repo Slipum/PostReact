@@ -66,7 +66,7 @@ app.post('/register', (req, res) => {
 				return res.status(500).json({ error: err.message });
 			}
 			const token = jwt.sign({ id: this.lastID, username, role: 'user' }, process.env.SECRET_KEY, {
-				expiresIn: '1h',
+				expiresIn: '7d',
 			});
 			res.status(201).json({ token });
 		},
@@ -85,7 +85,7 @@ app.post('/login', (req, res) => {
 		const token = jwt.sign(
 			{ id: user.id, username: user.username, role: user.role },
 			process.env.SECRET_KEY,
-			{ expiresIn: '1h' },
+			{ expiresIn: '7d' },
 		);
 		res.json({ token });
 	});

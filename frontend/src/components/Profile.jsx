@@ -45,13 +45,32 @@ function Profile() {
 	}
 
 	return (
-		<div>
-			<h2>Profile</h2>
-			<p>Username: {profile.username}</p>
-			<p>Email: {profile.email}</p>
-			<p>Role: {profile.role}</p>
-			<button onClick={handleLogout}>Logout</button>
-		</div>
+		<>
+			<div className="profile-cont">
+				<div className="h-logo">
+					<a href="/">
+						<h1>
+							<i class="fa-solid fa-caret-left"></i>
+						</h1>
+					</a>
+				</div>
+				<div className="back">
+					<h2 className="p-user">
+						<i class="fa-solid fa-user"></i> {profile.username}
+					</h2>
+				</div>
+				<button onClick={handleLogout}>
+					<i class="fa-solid fa-right-from-bracket"></i>
+				</button>
+			</div>
+			<div className="profile-container">
+				<div className="profile-content">
+					<p className="p-email">
+						<i class="fa-solid fa-envelope"></i> {profile.email}
+					</p>
+				</div>
+			</div>
+		</>
 	);
 }
 
