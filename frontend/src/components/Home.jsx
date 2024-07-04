@@ -260,7 +260,9 @@ function Home() {
 			<Header onSearch={handleSearch} onClearSearch={clearSearchResults} />
 			<div className="posts-container">
 				<div className="posts-head">
-					<h2>Posts ({totalPosts})</h2>
+					<h2>
+						<i class="fa-solid fa-newspaper"></i> Posts ({totalPosts})
+					</h2>
 					{currentUser && (
 						<div className="add-post">
 							<button onClick={openModal}>

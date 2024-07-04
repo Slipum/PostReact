@@ -35,16 +35,27 @@ function EditPost({ onClose, post, updatePost }) {
 	};
 
 	return (
-		<div>
-			<h2>Edit Post</h2>
+		<div className="create-container">
+			<h2>
+				<i class="fa-solid fa-pen-to-square"></i> Edit Post
+			</h2>
 			<form onSubmit={handleSubmit}>
 				<div>
-					<label>Title:</label>
-					<input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
+					<input
+						placeholder="Title"
+						type="text"
+						value={title}
+						onChange={(e) => setTitle(e.target.value)}
+						required
+					/>
 				</div>
-				<div>
-					<label>Content:</label>
-					<textarea value={content} onChange={(e) => setContent(e.target.value)} required />
+				<div className="text-content">
+					<textarea
+						placeholder="Content"
+						value={content}
+						onChange={(e) => setContent(e.target.value)}
+						required
+					/>
 				</div>
 				{error && <p>{error}</p>}
 				<button type="submit">Update Post</button>
