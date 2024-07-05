@@ -5,38 +5,40 @@ services:
     build: ./microservices/auth-service
     ports:
       - '3000:3000'
-    environment:
-      - SECRET_KEY=your_secret_key
+    env_file:
+      - .env
 
   post-service:
     build: ./microservices/post-service
     ports:
       - '3001:3001'
-    environment:
-      - SECRET_KEY=your_secret_key
+    env_file:
+      - .env
 
   rating-service:
     build: ./microservices/rating-service
     ports:
       - '3002:3002'
-    environment:
-      - SECRET_KEY=your_secret_key
+    env_file:
+      - .env
 
   comment-service:
     build: ./microservices/comment-service
     ports:
       - '3003:3003'
-    environment:
-      - SECRET_KEY=your_secret_key
+    env_file:
+      - .env
 
   admin-service:
     build: ./microservices/admin-service
     ports:
       - '3004:3004'
-    environment:
-      - SECRET_KEY=your_secret_key
+    env_file:
+      - .env
 
   frontend:
     build: ./frontend
     ports:
       - '3005:80'
+    env_file:
+      - .env
