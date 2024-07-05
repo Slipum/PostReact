@@ -9,6 +9,7 @@
 ### Предпросмотр
 
 <div>
+	<img src='./assets/image.png' />
 	<img src='./assets/image2.png' />
 </div>
 

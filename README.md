@@ -11,6 +11,7 @@ This project is a web application that allows users to publish content, rate pos
 ### Preview
 
 <div>
+	<img src='./docs/assets/image.png' />
 	<img src='./docs/assets/image2.png' />
 </div>
 
