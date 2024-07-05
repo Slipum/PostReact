@@ -35,6 +35,18 @@ const authenticateToken = (req, res, next) => {
 	});
 };
 
+// Маршрут для получения постов текущего пользователя
+app.get('/posts/mine', authenticateToken, (req, res) => {
+	const userId = req.user.id;
+
+	db.all('SELECT * FROM posts WHERE userId = ?', [userId], (err, rows) => {
+		if (err) {
+			return res.status(500).json({ error: err.message });
+		}
+		res.json(rows);
+	});
+});
+
 // Для поиска по заголовкам
 app.get('/posts/search', (req, res) => {
 	const { q } = req.query;

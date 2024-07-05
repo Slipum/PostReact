@@ -489,12 +489,22 @@ hr {
 
 .profile-container {
 	justify-content: center;
+	width: 70%;
+	list-style: none;
+}
+
+.content-list {
 	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .profile-content {
-	width: 70%;
 	font-size: 20px;
+}
+
+.profile-content a div {
+	padding-right: 10px;
 }
 
 .back {
@@ -511,6 +521,10 @@ hr {
 	font-size: 2.5rem;
 	opacity: 0.6;
 	padding-left: 1.5rem;
+}
+
+.profile-root li {
+	display: flex;
 }
 
 /* ----------- */
