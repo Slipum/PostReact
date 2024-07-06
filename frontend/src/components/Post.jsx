@@ -188,6 +188,11 @@ function Post() {
 
 	return (
 		<div className="post-conts">
+			<div className="icon-container">
+				<a href="/">
+					<i className="fa-solid fa-arrow-left"></i>
+				</a>
+			</div>
 			<div className="post-cont">
 				<h2>
 					<i class="fa-solid fa-rectangle-list"></i> {post.title}
