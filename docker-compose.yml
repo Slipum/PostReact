@@ -4,9 +4,11 @@ services:
   auth-service:
     build: ./microservices/auth-service
     ports:
-      - '3000:3000'
+      - '3005:3005'
     env_file:
       - .env
+    volumes:
+      - ../../database.db:/app/microservices/auth-service/../../database.db
 
   post-service:
     build: ./microservices/post-service
@@ -14,6 +16,8 @@ services:
       - '3001:3001'
     env_file:
       - .env
+    volumes:
+      - ../../database.db:/app/microservices/post-service/../../database.db
 
   rating-service:
     build: ./microservices/rating-service
@@ -21,6 +25,8 @@ services:
       - '3002:3002'
     env_file:
       - .env
+    volumes:
+      - ../../database.db:/app/microservices/rating-service/../../database.db
 
   comment-service:
     build: ./microservices/comment-service
@@ -28,6 +34,8 @@ services:
       - '3003:3003'
     env_file:
       - .env
+    volumes:
+      - ../../database.db:/app/microservices/comment-service/../../database.db
 
   admin-service:
     build: ./microservices/admin-service
@@ -35,10 +43,12 @@ services:
       - '3004:3004'
     env_file:
       - .env
+    volumes:
+      - ../../database.db:/app/microservices/admin-service/../../database.db
 
   frontend:
     build: ./frontend
     ports:
-      - '3005:80'
+      - '3000:80'
     env_file:
       - .env

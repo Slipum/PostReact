@@ -3,13 +3,13 @@ const sqlite3 = require('sqlite3').verbose();
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config({ path: '../../.env' });
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-const db = new sqlite3.Database('../database.db');
+const db = new sqlite3.Database('../../database.db');
 
 db.serialize(() => {
 	db.run(

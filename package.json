@@ -1,0 +1,22 @@
+{
+	"name": "postreact",
+	"version": "1.0.0",
+	"description": "- :ru: [Russian Documentation](./docs/ru.md) - Documentation in Russian.",
+	"main": "start-all.js",
+	"directories": {
+		"doc": "docs"
+	},
+	"scripts": {
+		"start:all": "node start-all.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"concurrently": "^8.2.2"
+	},
+	"dependencies": {
+		"dotenv": "^16.4.5"
+	}
+}

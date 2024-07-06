@@ -9,7 +9,7 @@
 ### Предпросмотр
 
 <div>
-	<img src='./assets/image1.png' />
+	<img src='./assets/image3.png' />
 	<img src='./assets/image2.png' />
 </div>
 
@@ -36,16 +36,11 @@
 - ![Node.js](https://img.shields.io/badge/-Node.js-339933?logo=node.js&logoColor=white&style=flat) Среда выполнения JavaScript вне браузера.
 - ![Axios](https://img.shields.io/badge/-Axios-671DD7?logo=axios&logoColor=white&style=flat) Библиотека для выполнения HTTP-запросов.
 
+---
+
 ### Установка и запуск проекта
 
-1. **Клонирование репозитория**
-
-   ```bash
-   git clone https://github.com/yourusername/projectname.git
-   cd projectname
-   ```
-
-2. **Настройка окружения**
+1. **Настройка окружения**
 
    Измените файл `.env` в корневой директории проекта и замените следующие переменные окружения:
 
@@ -56,17 +51,29 @@
    ADMIN_PASSWORD=123098
    ```
 
-3. **Запуск Docker контейнеров**
+2. **Запустите сервер и клиент одновременно**
 
-   Убедитесь, что у вас установлен Docker и Docker Compose. Затем выполните команду:
+   Вы можете запустить и сервер, и клиент одной командой:
 
-   ```bash
-   docker-compose up --build
+   ```
+   npm run start:all
    ```
 
-4. **Открытие приложения**
+3. **Открытие приложения**
 
-   Откройте ваш браузер и перейдите по адресу `http://localhost:3005`.
+   Откройте ваш браузер и перейдите по адресу `http://localhost:3000`.
+
+---
+
+> Если вам нужно запустить Docker контейнеры
+
+Убедитесь, что у вас установлен Docker и Docker Compose. Затем выполните команду:
+
+```bash
+docker-compose up --build
+```
+
+---
 
 ### Структура проекта
 
@@ -78,7 +85,7 @@
 
 ### Эндпоинты
 
-#### Регистрация (порт 3000)
+#### Регистрация (порт 3005)
 
 - **POST /register**: Регистрация нового пользователя.
 - **POST /login**: Аутентификация пользователя.

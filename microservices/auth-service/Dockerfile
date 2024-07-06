@@ -15,6 +15,6 @@ COPY . .
 RUN npm rebuild sqlite3 --build-from-source
 RUN npm rebuild bcrypt --build-from-source
 
-EXPOSE 3000
+EXPOSE 3005
 
 CMD ["node", "index.js"]

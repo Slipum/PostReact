@@ -11,7 +11,7 @@ This project is a web application that allows users to publish content, rate pos
 ### Preview
 
 <div>
-	<img src='./docs/assets/image1.png' />
+	<img src='./docs/assets/image3.png' />
 	<img src='./docs/assets/image2.png' />
 </div>
 
@@ -38,16 +38,11 @@ This project is a web application that allows users to publish content, rate pos
 - ![Node.js](https://img.shields.io/badge/-Node.js-339933?logo=node.js&logoColor=white&style=flat) JavaScript runtime environment outside the browser.
 - ![Axios](https://img.shields.io/badge/-Axios-671DD7?logo=axios&logoColor=white&style=flat) Library for making HTTP requests.
 
+---
+
 ### Installation and Running the Project
 
-1. **Clone the repository**
-
-   ```bash
-   git clone https://github.com/Slipum/PostReact.git
-   cd PostReact
-   ```
-
-2. **Setup Environment**
+1. **Setup Environment**
 
    Edit the `.env` file in the project's root directory and replace the following environment variables:
 
@@ -58,17 +53,29 @@ This project is a web application that allows users to publish content, rate pos
    ADMIN_PASSWORD=123098
    ```
 
-3. **Run Docker Containers**
+2. **Run the server and client simultaneously**
 
-   Make sure you have Docker and Docker Compose installed. Then run the following command:
+   You can start both the server and client with one command:
 
-   ```bash
-   docker-compose up --build
+   ```
+   npm run start:all
    ```
 
-4. **Open the Application**
+3. **Open the Application**
 
-   Open your browser and go to `http://localhost:3005`.
+   Open your browser and go to `http://localhost:3000`.
+
+---
+
+> If u need Run Docker Containers
+
+Make sure you have Docker and Docker Compose installed. Then run the following command:
+
+```bash
+docker-compose up --build
+```
+
+---
 
 ### Project Structure
 
@@ -79,7 +86,7 @@ This project is a web application that allows users to publish content, rate pos
 
 ### Endpoints
 
-#### Auth Service (port 3000)
+#### Auth Service (port 3005)
 
 - **POST /register**: Register a new user.
 - **POST /login**: Authenticate a user.

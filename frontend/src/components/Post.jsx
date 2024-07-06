@@ -67,7 +67,7 @@ function Post() {
 		const fetchUserProfile = async () => {
 			try {
 				const token = localStorage.getItem('token');
-				const response = await axios.get('http://localhost:3000/profile', {
+				const response = await axios.get('http://localhost:3005/profile', {
 					headers: {
 						Authorization: `Bearer ${token}`,
 					},
@@ -187,27 +187,53 @@ function Post() {
 	}
 
 	return (
-		<div>
-			<h2>{post.title}</h2>
-			<p>{post.content}</p>
-			<p>Rating: {rating}</p>
-			<button onClick={handleLike}>Like</button>
-			<button onClick={handleDislike}>Dislike</button>
-			<h3>Comments</h3>
-			<ul>
-				{comments.map((comment) => (
-					<li key={comment.id}>
-						{comment.content} <span className="comment-author">({commentAuthors[comment.id]})</span>
-					</li>
-				))}
-			</ul>
-			<form onSubmit={handleAddComment}>
-				<div>
-					<label>New Comment:</label>
-					<textarea value={newComment} onChange={(e) => setNewComment(e.target.value)} required />
-				</div>
-				<button type="submit">Add Comment</button>
-			</form>
+		<div className="post-conts">
+			<div className="post-cont">
+				<h2>
+					<i class="fa-solid fa-rectangle-list"></i> {post.title}
+				</h2>
+				<p className="pt-cont">{post.content}</p>
+				<hr />
+				<p className="pt-conts">
+					{rating > 1 ? (
+						<i className="fa-solid fa-star"></i>
+					) : rating === 1 ? (
+						<i className="fa-regular fa-star-half-stroke"></i>
+					) : (
+						<i className="fa-regular fa-star"></i>
+					)}{' '}
+					Rating {rating}
+				</p>
+				<button className="like" onClick={handleLike}>
+					<i class="fa-solid fa-thumbs-up"></i> Like
+				</button>
+				<button className="dislike" onClick={handleDislike}>
+					<i class="fa-solid fa-thumbs-down"></i> Dislike
+				</button>
+				<h3>
+					<i class="fa-solid fa-comments"></i> Comments
+				</h3>
+				<form onSubmit={handleAddComment}>
+					<div>
+						<textarea value={newComment} onChange={(e) => setNewComment(e.target.value)} required />
+					</div>
+					<button type="submit">
+						<i class="fa-regular fa-comment"></i> Add Comment
+					</button>
+				</form>
+				<hr className="hr-black" />
+				<ul>
+					{comments.map((comment) => (
+						<li key={comment.id}>
+							<span className="comment-author">
+								<i class="fa-solid fa-circle-user"></i> {commentAuthors[comment.id]}
+							</span>
+							<p>{comment.content}</p>
+							<hr />
+						</li>
+					))}
+				</ul>
+			</div>
 		</div>
 	);
 }

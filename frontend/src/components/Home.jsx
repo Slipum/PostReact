@@ -29,7 +29,7 @@ function Home() {
 				const postsWithDetails = await Promise.allSettled(
 					response.data.map(async (post) => {
 						try {
-							const userResponse = await axios.get(`http://localhost:3000/users/${post.userId}`, {
+							const userResponse = await axios.get(`http://localhost:3005/users/${post.userId}`, {
 								headers: {
 									Authorization: `Bearer ${token}`,
 								},
@@ -61,7 +61,7 @@ function Home() {
 			const token = localStorage.getItem('token');
 			if (token) {
 				try {
-					const response = await axios.get('http://localhost:3000/profile', {
+					const response = await axios.get('http://localhost:3005/profile', {
 						headers: {
 							Authorization: `Bearer ${token}`,
 						},
@@ -153,7 +153,7 @@ function Home() {
 
 			const searchResultsWithDetails = await Promise.all(
 				response.data.map(async (post) => {
-					const userResponse = await axios.get(`http://localhost:3000/users/${post.userId}`, {
+					const userResponse = await axios.get(`http://localhost:3005/users/${post.userId}`, {
 						headers: {
 							Authorization: `Bearer ${token}`,
 						},

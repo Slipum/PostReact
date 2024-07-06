@@ -10,7 +10,7 @@ function Header({ onSearch, onClearSearch }) {
 		const fetchProfile = async () => {
 			try {
 				const token = localStorage.getItem('token');
-				const response = await axios.get('http://localhost:3000/profile', {
+				const response = await axios.get('http://localhost:3005/profile', {
 					headers: {
 						Authorization: `Bearer ${token}`,
 					},
@@ -67,6 +67,9 @@ function Header({ onSearch, onClearSearch }) {
 				</div>
 			</div>
 			<div className="h-auth">
+				<a className="github" href="https://github.com/Slipum/PostReact">
+					<i class="fa-brands fa-github"></i>
+				</a>
 				{profile ? (
 					<>
 						{profile.username === 'admin' ? (

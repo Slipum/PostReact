@@ -440,7 +440,6 @@ hr {
 .create-container textarea {
 	font-size: 1.5rem;
 	resize: none;
-	overflow: hidden;
 	height: 88%;
 }
 
@@ -543,4 +542,108 @@ hr {
 	max-width: 600px;
 	margin: 0 auto;
 }
+/* ----------- */
+
+/* Post/comments */
+
+.post-conts {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.post-cont {
+	width: 70%;
+}
+
+.post-cont h2 {
+	font-size: 3rem;
+}
+
+.post-cont h3 {
+	font-size: 1.2rem;
+	font-weight: 700;
+}
+
+.post-cont hr {
+	margin-top: 20px;
+}
+
+.pt-cont {
+	font-size: 1.7rem;
+	padding-top: 7.5px;
+	padding-left: 30px;
+}
+
+.pt-conts {
+	padding-top: 20px;
+	font-size: 1.5rem;
+	font-weight: 500;
+}
+
+.post-cont button {
+	font-weight: 600;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	margin: 10px 20px;
+	border-radius: 0.7rem;
+	cursor: pointer;
+}
+
+.post-cont form {
+	display: block;
+	margin-top: 20px;
+	margin-left: 40px;
+}
+
+.post-cont form div textarea {
+	font-size: 1.5rem;
+	width: 70%;
+	resize: none;
+	height: 200px;
+	outline: none;
+	border: 1px solid rgba(0, 0, 0, 0.3);
+	border-radius: 1rem;
+	padding: 10px 20px;
+}
+
+.post-cont form button {
+	margin-left: 57.8%;
+	background-color: cornflowerblue;
+}
+
+.like {
+	background-color: #1fee1f;
+}
+
+.dislike {
+	background-color: rgb(196, 40, 40);
+}
+
+.post-cont ul {
+	list-style: none;
+	width: 100%;
+	display: block;
+	margin: 30px 0 60px 0;
+}
+
+.post-cont ul li p {
+	word-wrap: break-word;
+	padding: 10px 60px 0px 20px;
+}
+
+.post-cont ul li span {
+	padding-left: 10px;
+	font-weight: 500;
+}
+
+.post-cont ul li span i {
+	font-size: 1.2rem;
+}
+
+.hr-black {
+	border: 1px solid rgba(0, 0, 0, 0.6);
+}
+
 /* ----------- */

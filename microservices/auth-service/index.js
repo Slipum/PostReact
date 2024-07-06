@@ -4,13 +4,14 @@ const jwt = require('jsonwebtoken');
 const sqlite3 = require('sqlite3').verbose();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config({ path: '../../.env' });
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+process.setMaxListeners(15);
 
-const db = new sqlite3.Database('../database.db');
+const db = new sqlite3.Database('../../database.db');
 
 db.serialize(() => {
 	db.run(
@@ -25,8 +26,8 @@ db.serialize(() => {
 	// Вставка пользователя, только если его еще нет в таблице
 	db.run(
 		`INSERT INTO users (username, password, email, role)
-		SELECT ?, ?, ?, ?
-		WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = ?)`,
+        SELECT ?, ?, ?, ?
+        WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = ?)`,
 		[username, password, email, 'admin', username],
 		(err) => {
 			if (err) {
@@ -38,6 +39,7 @@ db.serialize(() => {
 	);
 });
 
+// Функция для аутентификации токена
 function authenticateToken(req, res, next) {
 	const authHeader = req.headers['authorization'];
 	const token = authHeader && authHeader.split(' ')[1];
@@ -91,6 +93,7 @@ app.post('/login', (req, res) => {
 	});
 });
 
+// Маршрут для создания постов
 app.post('/posts', authenticateToken, (req, res) => {
 	const { title, content } = req.body;
 	const userId = req.user.id;
@@ -120,6 +123,7 @@ app.get('/users/:id', authenticateToken, (req, res) => {
 	});
 });
 
+// Маршрут для получения профиля текущего пользователя
 app.get('/profile', authenticateToken, (req, res) => {
 	const userId = req.user.id;
 	db.get('SELECT id, username, email, role FROM users WHERE id = ?', [userId], (err, user) => {
@@ -133,6 +137,6 @@ app.get('/profile', authenticateToken, (req, res) => {
 	});
 });
 
-app.listen(3000, () => {
-	console.log('Auth Service running on port 3000');
+app.listen(3005, () => {
+	console.log('Auth Service running on port 3005');
 });
