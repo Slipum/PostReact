@@ -16,6 +16,24 @@ const db = new sqlite3.Database('../../database.db');
 db.serialize(() => {
 	db.run(
 		'CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, email TEXT, role TEXT)',
+		(err) => {
+			if (err) {
+				console.error('Ошибка при создании таблицы users:', err);
+			} else {
+				console.log('Таблица users создана или уже существует');
+			}
+		},
+	);
+
+	db.run(
+		'CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, userId INTEGER, FOREIGN KEY(userId) REFERENCES users(id))',
+		(err) => {
+			if (err) {
+				console.error('Ошибка при создании таблицы posts:', err);
+			} else {
+				console.log('Таблица posts создана или уже существует');
+			}
+		},
 	);
 
 	// Admin пользователь
